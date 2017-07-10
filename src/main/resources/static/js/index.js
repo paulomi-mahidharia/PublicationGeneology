@@ -47,23 +47,15 @@ function successfulAuthorSearchHandler(data, status) {
         console.log(data.length);
         document.getElementById("paper-table").style.display = "none";
 
-        console.log(document.getElementById("author-table").rows.length);
+        var table = document.getElementById("author-table");
 
-        $('#author-table').find('tr:gt(0)').remove();
+        for(var i=0; i < data.length; i++) {
 
-        var tr;
-        for (var i = 0; i < data.length; i++) {
-            console.log("displaying : "+ data[i].name);
-            tr+="<tr>";
-            tr+="<td>" + data[i].name + "</td>";
-            tr+="<td>" + data[i].affiliation + "</td>";
-            tr+="<td>" + data[i].url + "</td>";
-            tr+="</tr>";
-            $('#author-table').append(tr);
+            var row = table.insertRow(i+1);
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = data[i].name;
         }
         document.getElementById("author-table").style.display = "table";
-
-        //lTable.style.display = "table";
 
     } else {
         $('#status_not_found').show();
@@ -77,12 +69,29 @@ function successfulPaperSearchHandler(data, status) {
         console.log(data);
         document.getElementById("author-table").style.display = "none";
 
-        while(document.getElementById("paper-table").rows.length > 0) {
-            document.getElementById("paper-table").deleteRow(0);
-        }
+        console.log("It hot fixes again");
 
+        var table = document.getElementById("paper-table");
+
+        for(var i=0; i < data.length; i++) {
+
+            var row = table.insertRow(i+1);
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = data[i].title;
+        }
         document.getElementById("paper-table").style.display = "table";
+
     } else {
         $('#status_not_found').show();
     }
 }
+
+$("#author-table").click(function() {
+
+    console.log("CLICKED");
+    var tableData = $(this).children("td").map(function() {
+        return $(this).text();
+    }).get();
+
+    console.log(tableData);
+});

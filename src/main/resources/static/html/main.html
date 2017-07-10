@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+    <title>Hello AngularJS</title>
+    <!--<link href="css/angular-bootstrap.css" rel="stylesheet">-->
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+    </style>
+
+    <link rel="stylesheet"
+          type="text/css"
+          href="./../css/index.css"/>
+
+    <link rel="stylesheet"
+          type="text/css"
+          href="./../css/table.css"/>
+</head>
+
+<body ng-app="hello">
+<!--<div class="container">
+    <h1>Greeting</h1>
+    <div ng-controller="home" ng-cloak class="ng-cloak">
+        <p>The ID is {{greeting.id}}</p>
+        <p>The content is {{greeting.content}}</p>
+    </div>
+</div>-->
+
+<div class="container" style="width: 100%;" ng-controller="home" ng-cloak class="ng-cloak">
+
+    <div style="float:left; width: 50%; border-right: 1px solid black; padding-right: 15px">
+
+        <section id="login">
+            <!--<div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="form-wrap">-->
+            <h1>{{pageTitle}}</h1>
+            <form role="form" action="javascript:;" method="post" id="login-form" autocomplete="off">
+                <div class="form-group">
+                    <!--<input id="author-radio" type="radio" name="search" value="author">-->
+                    <!--<input type="text" name="email" id="author" class="form-control text-box"
+                           placeholder="Search by Author">-->
+                    <input ng-model="result"
+                           type="radio"
+                           name="search"
+                           ng-value="'author'">
+
+                    <input ng-model="authorName"
+                           type="text"
+                           name="author-search"
+                           id="author"
+                           class="form-control text-box"
+                           placeholder="Search by Author">
+                </div>
+                <div class="form-group">
+                    <input ng-model="result"
+                           type="radio"
+                           name="search"
+                           ng-value="'paper'">
+
+                    <input ng-model="paperName"
+                           type="text"
+                           name="paper-search"
+                           id="paper"
+                           class="form-control text-box"
+                           placeholder="Search by Paper title/keyword">
+                </div>
+
+                <input type="button"
+                       id="btn-login"
+                       class="btn btn-custom btn-lg btn-block button-custom"
+                       value="Search"
+                       ng-click="searchPublication()"
+                       align="center">
+            </form>
+            <hr>
+            <!--</div>
+        </div> <!-- /.col-xs-12 -->
+            <!--</div> <!-- /.row -->
+            <!--</div>-->
+
+            <!-- /.container -->
+            <div style="height:50%; overflow:auto;">
+
+                <table class="responstable"
+                       id="author-table"
+                       ng-show="predicate === 'author'">
+
+                    <thead>
+                    <th>Authors</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="author in authors">
+                        <td ng-click="getAuthorInfo(author)">
+                            {{author.name}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="responstable"
+                       id="paper-table"
+                       ng-show="predicate === 'paper'">
+                    <thead>
+                    <th>Papers</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="paper in papers">
+                        <td ng-click="getPaperInfo(paper)">
+                            {{paper.title}}
+                        </td>
+                    </tr>
+                    </tbody>
+
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <div style="float:right; padding: 15px">
+
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.4/ui-bootstrap-tpls.min.js"></script>
+
+<script src="./../js/hello.js"></script>
+<script type="text/javascript" src="./../js/index.js"></script>
+<script type="text/javascript" src="./../js/service.js"></script>
+
+</body>
+</html>
