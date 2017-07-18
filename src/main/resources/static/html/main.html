@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html style="height: 100%;">
 <head>
     <title>Hello AngularJS</title>
     <!--<link href="css/angular-bootstrap.css" rel="stylesheet">-->
@@ -27,9 +27,9 @@
     </div>
 </div>-->
 
-<div class="container" style="width: 100%;" ng-controller="home" ng-cloak class="ng-cloak">
+<div class="container" style="width: 100%; height: 100vh; overflow: hidden" ng-controller="home" ng-cloak class="ng-cloak">
 
-    <div style="float:left; width: 50%; border-right: 1px solid black; padding-right: 15px">
+    <div style="float:left; width: 50%; height: 100%; border-right: 1px solid black; padding-right: 15px">
 
         <section id="login">
             <!--<div class="container">
@@ -52,6 +52,7 @@
                            name="author-search"
                            id="author"
                            class="form-control text-box"
+                           style="width: 80%"
                            placeholder="Search by Author">
                 </div>
                 <div class="form-group">
@@ -65,8 +66,10 @@
                            name="paper-search"
                            id="paper"
                            class="form-control text-box"
+                           style="width: 80%"
                            placeholder="Search by Paper title/keyword">
                 </div>
+                <div class="form-group" style="display: flex; align-items: center; justify-content: center;">
 
                 <input type="button"
                        id="btn-login"
@@ -74,6 +77,7 @@
                        value="Search"
                        ng-click="searchPublication()"
                        align="center">
+                </div>
             </form>
             <hr>
             <!--</div>
@@ -82,7 +86,7 @@
             <!--</div>-->
 
             <!-- /.container -->
-            <div style="height:50%; overflow:auto;">
+            <div style="height:350px; overflow:auto;">
 
                 <table class="responstable"
                        id="author-table"
@@ -119,8 +123,39 @@
         </section>
     </div>
 
-    <div style="float:right; padding: 15px">
+    <div style="margin-left: 55%; padding: 15px">
 
+        <img id="mySpinner"
+             style="margin-top: 50%; margin-left: 25%;"
+             src="./../images/Interwind.gif"
+             ng-show="loading" />
+
+        <div ng-show="infoTablePaper">
+
+            <h1>Paper Info</h1>
+            <p><label><b>Title:</b> </label> {{selectedPaper.title}}</p>
+            <p><label><b>Conference Name:</b> </label> {{selectedPaper.conferenceName}}</p>
+            <p><label><b>Book Title:</b> </label> {{selectedPaper.bookTitle}}</p>
+            <p><label><b>Authors:</b></label></p>
+            <ul ng-repeat="selectedPaperAuthor in selectedPaperAuthors">
+                <li>{{selectedPaperAuthor.name}}</li>
+            </ul>
+        </div>
+
+        <div ng-show="infoTableAuthor">
+
+            <h1>Author Info</h1>
+            <p><label><b>Name:</b> </label> {{selectedAuthor.name}}</p>
+            <p><label><b>Affiliation:</b> </label> {{selectedAuthor.affiliation}}</p>
+            <p><label><b>Web URL:</b></label>
+                <a ng-show="selectedAuthor.url !== 'None'" href={{selectedAuthor.url}} target="_blank"> {{selectedAuthor.url}} </a>
+                <span ng-show="selectedAuthor.url === 'None'">{{selectedAuthor.url}}</span>
+            </p>
+            <p><label><b>Papers:</b></label></p>
+            <ul ng-repeat="paper in selectedAuthorPapers">
+                <li>{{paper.paperTitle}}</li>
+            </ul>
+        </div>
     </div>
 </div>
 
