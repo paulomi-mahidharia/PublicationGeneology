@@ -42,15 +42,12 @@ angular.module('hello', [])
         };
         
         $scope.getAuthorInfo = function (author) {
-            $scope.loading = true;
 
+            console.log(author);
+            $scope.loading = true;
             $scope.selectedAuthorPapers = [];
             $scope.infoTablePaper = false;
             $scope.infoTableAuthor = false;
-            console.log("LENGTH : " +$scope.selectedAuthorPapers.length);
-            console.log(author);
-
-
             console.log("Now getting papers");
 
             //Get author papers and conference information
@@ -68,17 +65,19 @@ angular.module('hello', [])
         $scope.getPaperInfo = function (paper) {
 
             console.log(paper);
-            $scope.selectedPaper = paper;
-
+            $scope.loading = true;
+            $scope.selectedPaperAuthors = [];
+            $scope.infoTablePaper = false;
+            $scope.infoTableAuthor = false;
             console.log("Now getting authors");
 
             // Get authors for paper
-            AppService.searchAuthorsForPaper($scope.selectedPaper.title)
+            AppService.searchAuthorsForPaper(paper.title)
                 .then(function (response) {
-                    $scope.selectedPaperAuthors = response.data
+                    $scope.loading = false;
+                    $scope.infoTablePaper = true;
+                    $scope.selectedPaper = paper;
+                    $scope.selectedPaperAuthors = response.data;
                 });
-
-            $scope.infoTableAuthor = false;
-            $scope.infoTablePaper = true;
         }
     });
