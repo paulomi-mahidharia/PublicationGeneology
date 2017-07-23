@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/paulomi-mahidharia/PublicationGeneology#readme",
   "dependencies": {
+    "angular-chart.js": "^1.1.1",
     "fusioncharts": "^3.12.1",
     "fusionmaps": "^3.12.1"
   }

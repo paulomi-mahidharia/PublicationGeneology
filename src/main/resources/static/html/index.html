@@ -145,7 +145,7 @@
 
         <div ng-show="infoTableAuthor" style="overflow: scroll">
 
-            <h1>Author Info<input style="float: right" type="button" value="Show Graph"></h1>
+            <h1>Author Info<input style="float: right" type="button" value="Show Graph" ng-click="showPaperGraph()"></h1>
             <p><label><b>Name:</b> </label> {{selectedAuthor.name}}</p>
             <p><label><b>Affiliation:</b> </label> {{selectedAuthor.affiliation}}</p>
             <p><label><b>Web URL:</b></label>
@@ -194,6 +194,19 @@
             </div>
         </div>
 
+        <div ng-show="showChats">
+        <!--<canvas id="radar" class="chart chart-radar"-->
+                <!--chart-data="data" chart-options="options" chart-labels="labels">-->
+        <!--</canvas>-->
+
+            <fusioncharts
+                    width="500"
+                    height="400"
+                    type="pie3d"
+                    datasource="{{myDataSource}}"
+            ></fusioncharts>
+        </div>
+
     </div>
 </div>
 
@@ -206,9 +219,13 @@
 
 <script type="text/javascript" src="./../js/app.js"></script>
 <script type="text/javascript" src="./../js/service.js"></script>
+
+<script src="./../js/charts/Chart.min.js"></script>
+<script src="./../js/charts/angular-chart.min.js"></script>
 <!-- FusionCharts library-->
 <script type="text/javascript" src="./../js/fusioncharts.js"></script>
 <script type="text/javascript" src="./../js/fusioncharts.charts.js"></script>
+<script type="text/javascript" src="./../js/fusioncharts.theme.fint.js"></script>
 
 <!-- Angular plugin -->
 <script type="text/javascript" src="./../js/angular-fusioncharts.min.js"></script>
