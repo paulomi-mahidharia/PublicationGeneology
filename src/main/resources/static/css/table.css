@@ -27,7 +27,7 @@ If you like this solution, you might also want to check out the 1.0 version:
     border: 1px solid #FFF;
     background-color: #1fa67b;
     color: #FFF;
-    padding: 1em;
+    padding: 2%;
 }
 .responstable th:first-child {
     display: table-cell;
@@ -72,12 +72,13 @@ If you like this solution, you might also want to check out the 1.0 version:
 @media (min-width: 480px) {
     .responstable th, .responstable td {
         display: table-cell;
-        padding: 1em;
+        /*padding: 1em;*/
+        padding: 2%;
     }
 }
 
 body {
-    padding: 0 2em;
+    padding: 0 1em;
     font-family: Arial, sans-serif;
     color: #024457;
     background: #f2f2f2;

@@ -2,7 +2,7 @@
 
 (function () {
     angular
-        .module("hello")
+        .module("app")
         .factory("AppService", AppService);
 
     function AppService($http) {
@@ -11,7 +11,8 @@
             searchAuthor: searchAuthor,
             searchPaper: searchPaper,
             searchAuthorsForPaper: searchAuthorsForPaper,
-            searchPapersForAuthor: searchPapersForAuthor
+            searchPapersForAuthor: searchPapersForAuthor,
+            searchConferencesForAuthor: searchConferencesForAuthor
         };
 
         return api;
@@ -72,6 +73,19 @@
             };
 
             return $http.get("./../search/author/"+authorId+"/papers", config);
+        }
+
+        function searchConferencesForAuthor(authorId) {
+
+            console.log("Finding author for id : "+authorId);
+
+            var config = {
+                headers: {
+                    'Accept' : '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+            };
+
+            return $http.get("./../search/author/"+authorId+"/conferences", config);
         }
     }
 })();

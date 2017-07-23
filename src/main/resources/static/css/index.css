@@ -100,8 +100,8 @@
 }
 
 h1{
-    color: #1fa67b;
-    font-size: 18px;
-    text-align: center;
-    font-weight: bold;
+    color: #1fa67b !important;
+    font-size: 18px !important;
+    text-align: center !important;
+    font-weight: bold !important;
 }

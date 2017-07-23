@@ -1,7 +1,14 @@
+<!doctype html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>externalStyle.html</title>
+    <title>Hello AngularJS</title>
+    <!--<link href="css/angular-bootstrap.css" rel="stylesheet">-->
+    <style type="text/css">
+        [ng\:cloak], [ng-cloak], .ng-cloak {
+            display: none !important;
+        }
+    </style>
+
     <link rel="stylesheet"
           type="text/css"
           href="./../css/index.css"/>
@@ -9,47 +16,69 @@
     <link rel="stylesheet"
           type="text/css"
           href="./../css/table.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript"
-            src="./../js/index.js">
-    </script>
-
-    <!--<script type="text/javascript">
-        function searchPublication() {
-            console.log("I am");
-        }
-    </script>-->
 </head>
-<body>
 
-<div style="width: 100%;">
+<body ng-app="app">
+<!--<div class="container">
+    <h1>Greeting</h1>
+    <div ng-controller="home" ng-cloak class="ng-cloak">
+        <p>The ID is {{greeting.id}}</p>
+        <p>The content is {{greeting.content}}</p>
+    </div>
+</div>-->
 
-    <div style="float:left; width: 50%; border-right: 1px solid black; padding-right: 15px">
+<!--style="width: 100%; height: 100vh; overflow: hidden"-->
+<div class="container"  ng-controller="AppController" ng-cloak class="ng-cloak">
+
+    <div class="container" style="float:left; width: 50%; border-right: 1px solid black; padding-right: 15px">
 
         <section id="login">
             <!--<div class="container">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="form-wrap">-->
-            <h1>Search by Author or Paper title/keyword</h1>
+            <h1>{{pageTitle}}</h1>
             <form role="form" action="javascript:;" method="post" id="login-form" autocomplete="off">
                 <div class="form-group">
-                    <input id="author-radio" type="radio" name="search" value="author">
-                    <input type="text" name="email" id="author" class="form-control text-box"
+                    <!--<input id="author-radio" type="radio" name="search" value="author">-->
+                    <!--<input type="text" name="email" id="author" class="form-control text-box"
+                           placeholder="Search by Author">-->
+                    <input ng-model="result"
+                           type="radio"
+                           name="search"
+                           ng-value="'author'">
+
+                    <input ng-model="authorName"
+                           type="text"
+                           name="author-search"
+                           id="author"
+                           class="form-control text-box"
+                           style="width: 80%"
                            placeholder="Search by Author">
                 </div>
                 <div class="form-group">
-                    <input id="paper-radio" type="radio" name="search" value="paper">
-                    <input type="text" name="key" id="paper" class="form-control text-box"
+                    <input ng-model="result"
+                           type="radio"
+                           name="search"
+                           ng-value="'paper'">
+
+                    <input ng-model="paperName"
+                           type="text"
+                           name="paper-search"
+                           id="paper"
+                           class="form-control text-box"
+                           style="width: 80%"
                            placeholder="Search by Paper title/keyword">
                 </div>
+                <div class="form-group" style="display: flex; align-items: center; justify-content: center;">
 
                 <input type="button"
                        id="btn-login"
                        class="btn btn-custom btn-lg btn-block button-custom"
                        value="Search"
-                       onclick="searchPublication()"
+                       ng-click="searchPublication()"
                        align="center">
+                </div>
             </form>
             <hr>
             <!--</div>
@@ -58,30 +87,126 @@
             <!--</div>-->
 
             <!-- /.container -->
-            <div style="height:50%; overflow:auto;">
+            <div style="height:350px; overflow:auto;">
 
-                <table class="responstable" id="author-table" style="display: none;" >
-                    <tr>
-                        <th>Authors</th>
+                <table class="responstable"
+                       id="author-table"
+                       ng-show="predicate === 'author'">
+
+                    <thead>
+                    <th>Authors</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="author in authors">
+                        <td ng-click="getAuthorInfo(author)">
+                            {{author.name}}
+                        </td>
                     </tr>
+                    </tbody>
                 </table>
 
-                <table class="responstable" id="paper-table" style="display: none;">
-                    <tr>
-                        <th>Papers</th>
+                <table class="responstable"
+                       id="paper-table"
+                       ng-show="predicate === 'paper'">
+                    <thead>
+                    <th>Papers</th>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="paper in papers">
+                        <td ng-click="getPaperInfo(paper)">
+                            {{paper.title}}
+                        </td>
                     </tr>
+                    </tbody>
 
                 </table>
             </div>
         </section>
     </div>
 
-    <div style="float:right; padding: 15px">
+    <div style="margin-left: 55%; padding: 50px 15px 15px 15px;">
+
+        <img id="mySpinner"
+             style="margin-top: 40%; margin-left: 25%;"
+             src="./../images/Interwind.gif"
+             ng-show="loading" />
+
+        <div ng-show="infoTablePaper">
+
+            <h1>Paper Info</h1>
+            <p><label><b>Title:</b> </label> {{selectedPaper.title}}</p>
+            <p><label><b>Conference Name:</b> </label> {{selectedPaper.conferenceName}}</p>
+            <p><label><b>Book Title:</b> </label> {{selectedPaper.bookTitle}}</p>
+            <p><label><b>Authors:</b></label></p>
+            <ul ng-repeat="selectedPaperAuthor in selectedPaperAuthors">
+                <li>{{selectedPaperAuthor.name}}</li>
+            </ul>
+        </div>
+
+        <div ng-show="infoTableAuthor" style="overflow: scroll">
+
+            <h1>Author Info<input style="float: right" type="button" value="Show Graph"></h1>
+            <p><label><b>Name:</b> </label> {{selectedAuthor.name}}</p>
+            <p><label><b>Affiliation:</b> </label> {{selectedAuthor.affiliation}}</p>
+            <p><label><b>Web URL:</b></label>
+                <a ng-show="selectedAuthor.url !== 'None'" href={{selectedAuthor.url}} target="_blank"> {{selectedAuthor.url}} </a>
+                <span ng-show="selectedAuthor.url === 'None'">{{selectedAuthor.url}}</span>
+            </p>
+            <p><label><b>Papers:</b></label></p>
+
+            <div style="height:300px; overflow:auto;">
+            <table class="responstable">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Conference Name</th>
+                    <th>Year</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="paper in selectedAuthorPapers">
+                <tr>
+                    <td>{{paper.paperTitle}}</td>
+                    <td>{{paper.confName}}</td>
+                    <td>{{paper.year}}</td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+
+            <p><label><b>Conferences:</b></label></p>
+            <div style="height:300px; overflow:auto;">
+                <table class="responstable">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Title</th>
+                        <th>Year</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="conference in selectedAuthorConferences">
+                    <tr>
+                        <td>{{conference.name}}</td>
+                        <td>{{conference.title}}</td>
+                        <td>{{conference.year}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
     </div>
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.4/ui-bootstrap-tpls.min.js"></script>
+
+<script src="./../js/app.js"></script>
+<script type="text/javascript" src="./../js/service.js"></script>
+<script src="./../js/angular-fusioncharts.min.js"></script>
+
 </body>
-
 </html>
-

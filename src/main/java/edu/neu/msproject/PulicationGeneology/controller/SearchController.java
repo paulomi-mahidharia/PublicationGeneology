@@ -75,4 +75,12 @@ public class SearchController {
         return authorInfoService.getAuthorPapers(Integer.parseInt(authorId));
     }
 
+    @RequestMapping(value = "/search/author/{authorId}/conferences", method = RequestMethod.GET)
+    public List<Conference> getAuthorConferenceServed(@PathVariable(value = "authorId", required = true) final String authorId) throws SQLException, IOException {
+
+        System.out.println("Finding authors");
+        AuthorInfoService authorInfoService = new AuthorInfoServiceImpl();
+        return authorInfoService.getAuthorConferenceServed(Integer.parseInt(authorId));
+    }
+
 }

@@ -1,0 +1,23 @@
+{
+  "name": "publicationgeneology",
+  "version": "1.0.0",
+  "description": "Master's project",
+  "main": "./src/main/resources/static/js/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulomi-mahidharia/PublicationGeneology.git"
+  },
+  "author": "Paulomi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulomi-mahidharia/PublicationGeneology/issues"
+  },
+  "homepage": "https://github.com/paulomi-mahidharia/PublicationGeneology#readme",
+  "dependencies": {
+    "fusioncharts": "^3.12.1",
+    "fusionmaps": "^3.12.1"
+  }
+}
