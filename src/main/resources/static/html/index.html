@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html style="background-color: #ffffff;">
 <head>
     <title>Hello AngularJS</title>
     <!--<link href="css/angular-bootstrap.css" rel="stylesheet">-->
@@ -18,7 +18,7 @@
           href="./../css/table.css"/>
 </head>
 
-<body ng-app="app">
+<body ng-app="app" style="background-color: #ffffff;">
 <!--<div class="container">
     <h1>Greeting</h1>
     <div ng-controller="home" ng-cloak class="ng-cloak">
@@ -28,7 +28,10 @@
 </div>-->
 
 <!--style="width: 100%; height: 100vh; overflow: hidden"-->
-<div class="container"  ng-controller="AppController" ng-cloak class="ng-cloak">
+<div class="container ng-cloak"
+     ng-controller="AppController"
+     style="background-color: #ffffff;"
+     ng-cloak>
 
     <div class="container" style="float:left; width: 50%; border-right: 1px solid black; padding-right: 15px">
 
@@ -201,7 +204,7 @@
 
             <fusioncharts
                     width="500"
-                    height="400"
+                    height="500"
                     type="pie3d"
                     datasource="{{myDataSource}}">
             </fusioncharts>
