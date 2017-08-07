@@ -12,7 +12,8 @@
             searchPaper: searchPaper,
             searchAuthorsForPaper: searchAuthorsForPaper,
             searchPapersForAuthor: searchPapersForAuthor,
-            searchConferencesForAuthor: searchConferencesForAuthor
+            searchConferencesForAuthor: searchConferencesForAuthor,
+            getCoAuthors: getCoAuthors
         };
 
         return api;
@@ -86,6 +87,23 @@
             };
 
             return $http.get("./../search/author/"+authorId+"/conferences", config);
+        }
+
+        function getCoAuthors(authorId, paperId, year) {
+
+            console.log("Finding papers for author "+authorId+" in year "+year);
+
+            var data = $.param({
+                excludePaper: paperId
+            });
+
+            var config = {
+                headers: {
+                    'Accept' : '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+            };
+
+            return $http.post("./../search/author/"+authorId+"/papers/year/"+year, data, config);
         }
     }
 })();

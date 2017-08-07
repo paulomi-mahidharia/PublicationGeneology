@@ -3,6 +3,7 @@ package edu.neu.msproject.PulicationGeneology.dao;
 import edu.neu.msproject.PulicationGeneology.database.DatabaseConnection;
 import edu.neu.msproject.PulicationGeneology.model.Author;
 import edu.neu.msproject.PulicationGeneology.model.AuthorPaper;
+import edu.neu.msproject.PulicationGeneology.model.CoAuthor;
 import edu.neu.msproject.PulicationGeneology.model.PaperInfo;
 
 import java.sql.Connection;
@@ -10,7 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class is use to implement SearchPaperDao to retrieve List of Author Paper mapping objects 
@@ -64,32 +67,67 @@ public class SearchPaperDaoImpl implements SearchPaperDao {
 			p.setConferenceName(rs.getString("conference_name"));
 			p.setConferenceUrl(rs.getString("url"));
 
-			List<Author> authors = new ArrayList<>();
-			//Get Authors
-			/*String authorQuery = "select a.* \n" +
-					"from paper p, author a, author_paper_mapping ap \n" +
-					"where p.paper_id = ap.Paper_Id \n" +
-					"and a.Id = ap.Author_Id \n" +
-					"and p.paper_id = '"+p.getPaperId()+"';";
-
-			PreparedStatement stmt1 = conn.prepareStatement(queryString);
-			ResultSet rs1 = stmt1.executeQuery();
-
-			while(rs1.next()){
-				Author author = new Author();
-				author.setAuthorId(Integer.parseInt(rs.getString(1)));
-				author.setName(rs.getString(2));
-				author.setAffiliation(rs.getString(3));
-				author.setUrl(rs.getString(4));
-
-				authors.add(author);
-			}
-
-			p.setAuthors(authors);*/
-
 			papers.add(p);
 		}
 		return papers;
+	}
+
+	@Override
+	public List<CoAuthor> getCoAuthors(String queryString) throws SQLException {
+
+		PreparedStatement stmt = conn.prepareStatement(queryString);
+		ResultSet rs = stmt.executeQuery();
+
+		Map<Integer, List<Author>> paperAuthors = new HashMap<>();
+		Map<Integer, AuthorPaper> paperInfo = new HashMap<>();
+
+		List<CoAuthor> coAuthors = new ArrayList<>();
+
+		while(rs.next()){
+
+			int paperId = Integer.parseInt(rs.getString("paper_id"));
+
+			Author author = new Author();
+			author.setAuthorId(Integer.parseInt(rs.getString("Id")));
+			author.setName(rs.getString("Name"));
+			author.setAffiliation(rs.getString("affiliation"));
+			author.setUrl(rs.getString("url"));
+
+			List<Author> authors;
+			if(paperAuthors.containsKey(paperId)) {
+				authors = paperAuthors.get(paperId);
+			} else{
+				authors = new ArrayList<>();
+			}
+			authors.add(author);
+			paperAuthors.put(paperId, authors);
+
+			if(!paperInfo.containsKey(paperId)) {
+				AuthorPaper authorPaper = new AuthorPaper();
+				authorPaper.setPaperId(paperId);
+				authorPaper.setPaperTitle(rs.getString("title"));
+				authorPaper.setConfName(rs.getString("conference_name"));
+				authorPaper.setYear(Integer.parseInt(rs.getString("year")));
+				paperInfo.put(paperId, authorPaper);
+			}
+		}
+
+		CoAuthor coAuthor;
+		for(Integer paper: paperInfo.keySet()){
+
+			AuthorPaper authorPaper = paperInfo.get(paper);
+			List<Author> authors = paperAuthors.get(paper);
+
+			coAuthor = new CoAuthor();
+			coAuthor.setPaperId(authorPaper.getPaperId());
+			coAuthor.setTitle(authorPaper.getPaperTitle());
+			coAuthor.setYear(authorPaper.getYear());
+			coAuthor.setConfName(authorPaper.getConfName());
+			coAuthor.setAuthors(authors);
+
+			coAuthors.add(coAuthor);
+		}
+		return coAuthors;
 	}
 
 }

@@ -2,6 +2,7 @@ package edu.neu.msproject.PulicationGeneology.service;
 
 import edu.neu.msproject.PulicationGeneology.model.Author;
 import edu.neu.msproject.PulicationGeneology.model.AuthorPaper;
+import edu.neu.msproject.PulicationGeneology.model.CoAuthor;
 import edu.neu.msproject.PulicationGeneology.model.Conference;
 
 import java.sql.SQLException;
@@ -36,5 +37,6 @@ public interface AuthorInfoService {
 	 * @return list of conference papers
 	 */
 	public List<Conference> getAuthorConferenceServed(int authorId) throws SQLException;
-	
+
+    List<CoAuthor> getCoAuthors(int authorId, int paperId, String year) throws SQLException;
 }

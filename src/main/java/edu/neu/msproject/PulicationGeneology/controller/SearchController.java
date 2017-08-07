@@ -83,4 +83,14 @@ public class SearchController {
         return authorInfoService.getAuthorConferenceServed(Integer.parseInt(authorId));
     }
 
+    @RequestMapping(value = "/search/author/{authorId}/papers/year/{year}", method = RequestMethod.POST)
+    public List<CoAuthor> getCoAuthors(@PathVariable(value = "authorId", required = true) final String authorId,
+                                                         @RequestParam(value = "excludePaper", required = true) final String paperId,
+                                                         @PathVariable(value = "year", required = true) final String year) throws SQLException, IOException {
+
+        System.out.println("Finding papers for author "+authorId+" in year "+year);
+        AuthorInfoService authorInfoService = new AuthorInfoServiceImpl();
+        return authorInfoService.getCoAuthors(Integer.parseInt(authorId), Integer.parseInt(paperId), year);
+    }
+
 }

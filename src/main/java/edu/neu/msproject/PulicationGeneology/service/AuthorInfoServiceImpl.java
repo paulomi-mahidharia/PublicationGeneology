@@ -3,6 +3,7 @@ package edu.neu.msproject.PulicationGeneology.service;
 import edu.neu.msproject.PulicationGeneology.dao.*;
 import edu.neu.msproject.PulicationGeneology.model.Author;
 import edu.neu.msproject.PulicationGeneology.model.AuthorPaper;
+import edu.neu.msproject.PulicationGeneology.model.CoAuthor;
 import edu.neu.msproject.PulicationGeneology.model.Conference;
 
 import java.sql.SQLException;
@@ -69,6 +70,38 @@ public class AuthorInfoServiceImpl implements AuthorInfoService {
 		
 		authorConfServed = searchConfDao.retrieveConference(queryString);
 		return authorConfServed;
+	}
+
+	@Override
+	public List<CoAuthor> getCoAuthors(int authorId, int paperId, String year) throws SQLException {
+
+		List<CoAuthor> authorPapers = new ArrayList<>();
+
+//		String queryString = "select p.* \n" +
+//				"from paper p, author a, author_paper_mapping ap \n" +
+//				"where ap.Author_Id = a.Id \n" +
+//				"and ap.Paper_Id = p.paper_id \n" +
+//				"and p.year = '"+year+"' \n" +
+//				"and a.Id = "+authorId+" \n" +
+//				"and p.paper_id !="+paperId;
+
+		String queryString = "select a.*, p.paper_id, p.title, p.conference_name, p.year \n" +
+				"from paper p, author a, author_paper_mapping ap \n" +
+				"where ap.Author_Id = a.Id \n" +
+				"and ap.Paper_Id = p.paper_id \n" +
+				"and a.Id != "+authorId+" \n" +
+				"and p.paper_id in (select p.paper_id \n" +
+									"from paper p, author a, author_paper_mapping ap \n" +
+									"where ap.Author_Id = a.Id \n" +
+									"and ap.Paper_Id = p.paper_id \n" +
+									"and p.year = '"+year+"' \n" +
+									"and a.Id = "+authorId+" \n" +
+									"and p.paper_id != "+paperId+")";
+
+		System.out.println(queryString);
+
+		authorPapers = searchPaperDao.getCoAuthors(queryString);
+		return authorPapers;
 	}
 
 }

@@ -1,7 +1,8 @@
 "use strict";
 
 (function () {
-    angular.module('app', ['ng-fusioncharts', 'chart.js'])
+    //'ng-fusioncharts', 'chart.js',
+    angular.module('app', ['nvd3', 'ng-fusioncharts'])
         .controller('AppController', function ($scope, AppService) {
 
             //$scope.greeting = {id: 'xxx', content: 'Hello World!'}
@@ -97,40 +98,23 @@
                         $scope.infoTablePaper = true;
                         $scope.selectedPaper = paper;
                         $scope.selectedPaperAuthors = response.data;
+
+                        console.log("Looking for co-authors");
+                        
+                        var nodes = [];
+                        var group = 0;
+
+                        angular.forEach($scope.selectedPaperAuthors, function (author) {
+                            nodes.push({"name":author,"group":group});
+                        });
+
+                        console.log(nodes);
                     });
             };
 
 
             $scope.welcome = "Hello";
             $scope.showChats = false;
-
-            // $scope.myDataSource = {
-            //     chart: {
-            //         caption: "Publication Timeline",
-            //         subCaption: "Top 5 stores in last month by revenue",
-            //     },
-            //     data:[{
-            //         label: "Bakersfield Central",
-            //         value: "880000"
-            //     },
-            //         {
-            //             label: "Garden Groove harbour",
-            //             value: "730000"
-            //         },
-            //         {
-            //             label: "Los Angeles Topanga",
-            //             value: "590000"
-            //         },
-            //         {
-            //             label: "Compton-Rancho Dom",
-            //             value: "520000"
-            //         },
-            //         {
-            //             label: "Daly City Serramonte",
-            //             value: "330000"
-            //         }]
-            // };
-
 
             $scope.myDataSource = {};
             $scope.showPaperGraph = function () {
@@ -166,10 +150,7 @@
                     };
 
                     myData.push(obj)
-
                 });
-
-
 
                 $scope.myDataSource = {
                     chart: {
@@ -186,24 +167,6 @@
                     },
                     data: myData
                 };
-
-
-                // $scope.labels = [];
-                //
-                // angular.forEach($scope.selectedAuthorPapers, function (paper) {
-                //
-                //     // if($scope.labels.indexOf(paper.year) == -1) {
-                //     //     $scope.labels.push(paper.year);
-                //     // }
-                // })
-
             };
-
-            //$scope.labels =["Eating", "Drinking", "Sleeping", "Designing", "Coding", "Cycling", "Running"];
-
-            // $scope.data = [
-            //     [65, 59, 90, 81, 56, 55, 40],
-            //     [28, 48, 40, 19, 96, 27, 100]
-            // ];
         });
 })();

@@ -1,5 +1,5 @@
 <!doctype html>
-<html style="background-color: #ffffff;">
+<html style="background-color: #ffffff;" >
 <head>
     <title>Hello AngularJS</title>
     <!--<link href="css/angular-bootstrap.css" rel="stylesheet">-->
@@ -16,6 +16,9 @@
     <link rel="stylesheet"
           type="text/css"
           href="./../css/table.css"/>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.css"/>
+
 </head>
 
 <body ng-app="app" style="background-color: #ffffff;">
@@ -29,7 +32,7 @@
 
 <!--style="width: 100%; height: 100vh; overflow: hidden"-->
 <div class="container ng-cloak"
-     ng-controller="AppController"
+     ng-controller="Nvd3Controller"
      style="background-color: #ffffff;"
      ng-cloak>
 
@@ -92,6 +95,11 @@
             <!-- /.container -->
             <div style="height:350px; overflow:auto;">
 
+                <img id="SpinnerForTable"
+                     style="margin-top: 10%; margin-left: 25%;"
+                     src="./../images/Interwind.gif"
+                     ng-show="loadingSpinnerForTable" />
+
                 <table class="responstable"
                        id="author-table"
                        ng-show="predicate === 'author'">
@@ -136,7 +144,7 @@
 
         <div ng-show="infoTablePaper">
 
-            <h1>Paper Info</h1>
+            <h1>Paper Info<input style="float: right" type="button" class="btn btn-custom btn-lg btn-block button-custom" ng-disabled="foundCoAuthors" value="Show Graph" ng-click="showAuthorGraph()"></h1>
             <p><label><b>Title:</b> </label> {{selectedPaper.title}}</p>
             <p><label><b>Conference Name:</b> </label> {{selectedPaper.conferenceName}}</p>
             <p><label><b>Book Title:</b> </label> {{selectedPaper.bookTitle}}</p>
@@ -197,6 +205,11 @@
             </div>
         </div>
 
+        <div ng-show="showAuthorChats">
+
+            <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+        </div>
+
         <div ng-show="showChats">
         <!--<canvas id="radar" class="chart chart-radar"-->
                 <!--chart-data="data" chart-options="options" chart-labels="labels">-->
@@ -220,18 +233,21 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-route.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.2.4/ui-bootstrap-tpls.min.js"></script>
 
-<script type="text/javascript" src="./../js/app.js"></script>
-<script type="text/javascript" src="./../js/service.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/nvd3/1.8.3/nv.d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-nvd3/1.0.9/angular-nvd3.min.js"></script>
 
-<script src="./../js/charts/Chart.min.js"></script>
-<script src="./../js/charts/angular-chart.min.js"></script>
 <!-- FusionCharts library-->
-<script type="text/javascript" src="../js/fusioncharts/fusioncharts.js"></script>
-<script type="text/javascript" src="../js/fusioncharts/fusioncharts.charts.js"></script>
-<script type="text/javascript" src="../js/fusioncharts/fusioncharts.theme.fint.js"></script>
+<script type="text/javascript" src="./../js/fusioncharts/fusioncharts.js"></script>
+<script type="text/javascript" src="./../js/fusioncharts/fusioncharts.charts.js"></script>
+<script type="text/javascript" src="./../js/fusioncharts/fusioncharts.theme.fint.js"></script>
 
 <!-- Angular plugin -->
-<script type="text/javascript" src="../js/fusioncharts/angular-fusioncharts.min.js"></script>
+<script type="text/javascript" src="./../js/fusioncharts/angular-fusioncharts.min.js"></script>
 
+<!--<script type="text/javascript" src="./../js/filters/authorFilter.js"></script>-->
+<script type="text/javascript" src="./../js/app.js"></script>
+<script type="text/javascript" src="./../js/nvd3.js"></script>
+<script type="text/javascript" src="./../js/service.js"></script>
 </body>
 </html>
