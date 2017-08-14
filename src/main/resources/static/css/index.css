@@ -64,7 +64,7 @@
 	:: Inputs & Buttons
 	-------------------------------------------------- */
 .form-control {
-    color: #212121;
+    color: #212121 !important;
 }
 .btn-custom {
     color: #fff;
@@ -91,7 +91,7 @@
 }
 
 .text-box{
-    padding: 10px;
+    padding: 10px !important;
     width: 80%;
 }
 
@@ -104,4 +104,12 @@ h1{
     font-size: 18px !important;
     text-align: center !important;
     font-weight: bold !important;
+}
+
+select {
+    background-color: white;
+    width: 100px;
+    -webkit-appearance: none;
+    border-radius: 0px;
+    border-color: rgb(224, 224, 224) !important;
 }

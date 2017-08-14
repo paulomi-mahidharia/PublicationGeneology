@@ -1,8 +1,8 @@
 "use strict";
 
 (function () {
-    angular.module('app', ['nvd3', 'ng-fusioncharts'])
-        .controller('Nvd3Controller', function ($scope, $filter, AppService) {
+    angular.module('app', ['nvd3', 'ng-fusioncharts', 'ngMaterial'])
+        .controller('Nvd3Controller', function ($scope, $filter, $q, $timeout, AppService) {
 
             $scope.pageTitle = "Search by Author or Paper title/keyword";
             $scope.infoTableAuthor = false;
@@ -24,7 +24,35 @@
                 $scope.topValue = "10";
                 $scope.topValues = ["5", "10", "20", "30"];
 
+                $scope.conferences = [];
+
+                AppService.getAllConferences()
+                    .then(function (response) {
+                        angular.forEach(response.data, function (conf) {
+                            if($scope.conferences.indexOf(conf.name) == -1) {
+                                $scope.conferences.push(conf.name);
+                            }
+                        });
+
+                        console.log("CONF");
+                        console.log($scope.conferences);
+                    })
+
             }init();
+
+            $scope.getConferences = function(searchText) {
+                var deferred = $q.defer();
+
+                $timeout(function() {
+                    var conferences = $scope.conferences.filter(function(conference) {
+                        return (conference.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
+                    });
+                    deferred.resolve(conferences);
+                }, 1500);
+
+                return deferred.promise;
+            };
+
 
             $scope.searchPublication = function () {
 

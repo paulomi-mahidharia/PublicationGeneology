@@ -29,4 +29,13 @@ public class ConferenceServiceImpl implements ConferenceService {
 		
 	}
 
+	@Override
+	public List<Conference> getAllPaperConferences() throws SQLException {
+
+		String queryString = "SELECT DISTINCT conference_name FROM paper;";
+
+		List<Conference> conferences = searchConfDao.retrieveDistinctConf(queryString);
+
+		return conferences;
+	}
 }

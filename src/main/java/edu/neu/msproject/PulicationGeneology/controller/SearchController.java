@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by paulomimahidharia on 6/9/17.
@@ -101,11 +100,14 @@ public class SearchController {
     }
 
     @RequestMapping(value = "/search/conferences", method = RequestMethod.GET)
-    public List<Conference> getTopAuthorsForConference() throws SQLException {
+    public Set<Conference> getTopAuthorsForConference() throws SQLException {
 
         List<Conference> conferences = new ArrayList<>();
         ConferenceService conferenceService = new ConferenceServiceImpl();
         conferences = conferenceService.retrieveAllConferences();
-        return conferences;
+
+        conferences.addAll(conferenceService.getAllPaperConferences());
+
+        return (Set) new HashSet(conferences);
     }
 }

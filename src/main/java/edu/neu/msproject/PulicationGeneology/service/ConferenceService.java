@@ -3,6 +3,7 @@ package edu.neu.msproject.PulicationGeneology.service;
 import edu.neu.msproject.PulicationGeneology.model.Conference;
 
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -17,4 +18,6 @@ public interface ConferenceService {
 	
 	
 	public List<Conference> retrieveAllConferences() throws SQLException;
+
+	public List<Conference> getAllPaperConferences() throws SQLException;
 }
