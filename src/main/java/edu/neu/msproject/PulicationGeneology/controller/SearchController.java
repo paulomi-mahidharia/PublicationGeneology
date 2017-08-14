@@ -1,14 +1,12 @@
 package edu.neu.msproject.PulicationGeneology.controller;
 
 import edu.neu.msproject.PulicationGeneology.model.*;
-import edu.neu.msproject.PulicationGeneology.service.AuthorInfoService;
-import edu.neu.msproject.PulicationGeneology.service.AuthorInfoServiceImpl;
-import edu.neu.msproject.PulicationGeneology.service.SearchService;
-import edu.neu.msproject.PulicationGeneology.service.SearchServiceImpl;
+import edu.neu.msproject.PulicationGeneology.service.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -93,4 +91,21 @@ public class SearchController {
         return authorInfoService.getCoAuthors(Integer.parseInt(authorId), Integer.parseInt(paperId), year);
     }
 
+    @RequestMapping(value = "/search/conference/{conference}/authors/top/{top}", method = RequestMethod.GET)
+    public List<Author> getTopAuthorsForConference(@PathVariable(value = "conference", required = true) final String conference,
+                                                   @PathVariable(value = "top", required = true) final String top) throws SQLException {
+
+        AuthorInfoService authorInfoService = new AuthorInfoServiceImpl();
+        return authorInfoService.getTopAuthorsForConference(conference, top);
+
+    }
+
+    @RequestMapping(value = "/search/conferences", method = RequestMethod.GET)
+    public List<Conference> getTopAuthorsForConference() throws SQLException {
+
+        List<Conference> conferences = new ArrayList<>();
+        ConferenceService conferenceService = new ConferenceServiceImpl();
+        conferences = conferenceService.retrieveAllConferences();
+        return conferences;
+    }
 }

@@ -39,4 +39,6 @@ public interface AuthorInfoService {
 	public List<Conference> getAuthorConferenceServed(int authorId) throws SQLException;
 
     List<CoAuthor> getCoAuthors(int authorId, int paperId, String year) throws SQLException;
+
+    List<Author> getTopAuthorsForConference(String conference, String top) throws SQLException;
 }

@@ -76,6 +76,28 @@
                            style="width: 80%"
                            placeholder="Search by Paper title/keyword">
                 </div>
+
+                <div class="form-group">
+                    <input ng-model="result"
+                           type="radio"
+                           name="search"
+                           ng-value="'conference'">
+
+                    <input ng-model="conferenceName"
+                           type="text"
+                           name="conference-search"
+                           id="conference"
+                           class="form-control text-box"
+                           style="width: 50%"
+                           placeholder="Search top authors for a Conference">
+                    <span style="padding-left: 5%">Top: </span>
+                    <select name="singleSelect"
+                            id="singleSelect"
+                            ng-model="topValue">
+                        <option ng-repeat="top in topValues" value="{{top}}">{{top}}</option>
+                    </select>
+                </div>
+
                 <div class="form-group" style="display: flex; align-items: center; justify-content: center;">
 
                 <input type="button"
@@ -205,9 +227,26 @@
             </div>
         </div>
 
-        <div ng-show="showAuthorChats">
+        <div ng-show="infoTableAuthorByConference">
 
-            <nvd3 options="options" data="data" class="with-3d-shadow with-transitions"></nvd3>
+            <h1>Top authors for {{conferenceName}}<input style="float: right" type="button" class="btn btn-custom btn-lg btn-block button-custom" value="Show Graph" ng-click="showAuthorConfGraph()"></h1>
+            <div style="height: 100vh; overflow: scroll">
+                <div ng-repeat="author in authorsForConf">
+                    <p><label><b>Author:</b> </label> {{author.name}}</p>
+                    <ul>
+                        <li>Affiliation: {{author.affiliation}}</li>
+                        <li>URL: <a ng-show="author.url !== 'None'" href={{author.url}} target="_blank"> {{author.url}} </a>
+                            <span ng-show="author.url === 'None'">{{author.url}}</span></li>
+                        <li>Papers published in {{conferenceName}}: {{author.paperCount}}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="showAuthorChats">
+            <input style="float: right" type="button" class="btn btn-custom btn-lg btn-block button-custom" value="Close" ng-click="closeAuthorGraph()">
+
+            <nvd3 options="options" data="data"></nvd3>
         </div>
 
         <div ng-show="showChats">
@@ -223,6 +262,10 @@
             </fusioncharts>
         </div>
 
+        <div ng-show="showConfAuthorCharts">
+
+            <nvd3 options="options" data="data"></nvd3>
+        </div>
     </div>
 </div>
 

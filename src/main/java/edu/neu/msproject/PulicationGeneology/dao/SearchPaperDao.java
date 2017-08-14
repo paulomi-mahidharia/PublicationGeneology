@@ -1,5 +1,6 @@
 package edu.neu.msproject.PulicationGeneology.dao;
 
+import edu.neu.msproject.PulicationGeneology.model.Author;
 import edu.neu.msproject.PulicationGeneology.model.AuthorPaper;
 import edu.neu.msproject.PulicationGeneology.model.CoAuthor;
 import edu.neu.msproject.PulicationGeneology.model.PaperInfo;
@@ -18,4 +19,6 @@ public interface SearchPaperDao {
 	public List<PaperInfo> searchPapersByKeyword(String queryString) throws SQLException;
 
 	List<CoAuthor> getCoAuthors(String queryString) throws SQLException;
+
+	List<Author> getTopAuthorsForConference(String query) throws SQLException;
 }

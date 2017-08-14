@@ -8,6 +8,7 @@ public class Author implements Comparable<Author> {
 	private String authorKey;
 	private String name;
 	private int age;
+	private int paperCount;
 	private String degree;
 	private String gender;
 	private String country;
@@ -95,6 +96,14 @@ public class Author implements Comparable<Author> {
 
 	public void setAliasNames(List<String> aliasNames) {
 		this.aliasNames = aliasNames;
+	}
+
+	public int getPaperCount() {
+		return paperCount;
+	}
+
+	public void setPaperCount(int paperCount) {
+		this.paperCount = paperCount;
 	}
 
 	@Override

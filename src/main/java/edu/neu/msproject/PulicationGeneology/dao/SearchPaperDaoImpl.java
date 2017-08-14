@@ -130,4 +130,27 @@ public class SearchPaperDaoImpl implements SearchPaperDao {
 		return coAuthors;
 	}
 
+	@Override
+	public List<Author> getTopAuthorsForConference(String query) throws SQLException {
+
+		PreparedStatement stmt = conn.prepareStatement(query);
+		ResultSet rs = stmt.executeQuery();
+
+		List<Author> authors = new ArrayList<>();
+
+		while(rs.next()){
+
+			Author author = new Author();
+			System.out.println(rs.getInt(1));
+			author.setAuthorId(rs.getInt(1));
+			author.setName(rs.getString(2));
+			author.setAffiliation(rs.getString(3));
+			author.setUrl(rs.getString(4));
+			author.setPaperCount(rs.getInt(5));
+
+			authors.add(author);
+		}
+		return authors;
+	}
+
 }

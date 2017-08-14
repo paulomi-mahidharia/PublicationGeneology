@@ -104,4 +104,22 @@ public class AuthorInfoServiceImpl implements AuthorInfoService {
 		return authorPapers;
 	}
 
+	@Override
+	public List<Author> getTopAuthorsForConference(String conference, String top) throws SQLException {
+
+		List<Author> authors = new ArrayList<>();
+
+		String query = "SELECT distinct a.*, count(distinct p.paper_id)\n " +
+				"FROM author a, paper p, author_paper_mapping ap\n " +
+				"WHERE ap.Author_Id = a.Id \n " +
+				"AND ap.Paper_Id = p.paper_id \n " +
+				"AND p.conference_name = '"+ conference +"'\n " +
+				"GROUP BY a.Name\n " +
+				"ORDER BY count(distinct p.paper_id) desc \n" +
+				"LIMIT " + top;
+
+		authors = searchPaperDao.getTopAuthorsForConference(query);
+		return authors;
+	}
+
 }

@@ -13,7 +13,9 @@
             searchAuthorsForPaper: searchAuthorsForPaper,
             searchPapersForAuthor: searchPapersForAuthor,
             searchConferencesForAuthor: searchConferencesForAuthor,
-            getCoAuthors: getCoAuthors
+            getCoAuthors: getCoAuthors,
+            getTopAuthorsForConference: getTopAuthorsForConference,
+            getAllConferences: getAllConferences
         };
 
         return api;
@@ -104,6 +106,28 @@
             };
 
             return $http.post("./../search/author/"+authorId+"/papers/year/"+year, data, config);
+        }
+        
+        function getTopAuthorsForConference(conference, top) {
+
+            var config = {
+                headers: {
+                    'Accept' : '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+            };
+
+            return $http.get("./../search/conference/"+ conference +"/authors/top/"+ top, config);
+        }
+        
+        function getAllConferences() {
+
+            var config = {
+                headers: {
+                    'Accept' : '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+            };
+
+            return $http.get("./../search/conferences", config);
         }
     }
 })();
