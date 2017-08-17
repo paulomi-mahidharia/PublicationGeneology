@@ -1,7 +1,7 @@
 <!doctype html>
 <html style="background-color: #ffffff;" >
 <head>
-    <title>Hello AngularJS</title>
+    <title>Publication Genealogy</title>
     <!--<link href="css/angular-bootstrap.css" rel="stylesheet">-->
     <style type="text/css">
         [ng\:cloak], [ng-cloak], .ng-cloak {
@@ -96,8 +96,9 @@
                         <option ng-repeat="top in topValues" value="{{top}}">{{top}}</option>
                     </select>
 
-                    <div style="padding: 10px 0px 0px 27px; width: 84%;" class="form-control text-box">
-                        <md-autocomplete md-selected-item="conferenceName"
+                    <div style="padding: 10px 0px 0px 27px !important; width: 84%;" class="form-control text-box">
+                        <md-autocomplete md-style="font-size: 17px !important;"
+                                         md-selected-item="conferenceName"
                                          md-search-text="searchText"
                                          md-items="conference in getConferences(searchText)"
                                          md-item-text="conference"
@@ -270,15 +271,10 @@
         </div>
 
         <div ng-show="showAuthorChats">
-            <input style="float: right" type="button" class="btn btn-custom btn-lg btn-block button-custom" value="Close" ng-click="closeAuthorGraph()">
-
             <nvd3 options="options" data="data"></nvd3>
         </div>
 
         <div ng-show="showChats">
-        <!--<canvas id="radar" class="chart chart-radar"-->
-                <!--chart-data="data" chart-options="options" chart-labels="labels">-->
-        <!--</canvas>-->
 
             <fusioncharts
                     width="500"

@@ -56,6 +56,12 @@
 
             $scope.searchPublication = function () {
 
+                var nodes = [];
+                var links = [];
+                var group = 0;
+                var nameIntMap = [];
+                var int = 0;
+                var coAuthorInfo = [];
                 $scope.predicate = '';
                 $scope.loadingSpinnerForTable = true;
                 $scope.showConfAuthorCharts = false;
@@ -298,6 +304,12 @@
                         color: function (d) {
                             return color(d.group)
                         },
+                        tooltip : {
+                            contentGenerator : function (obj)
+                            {
+                                return "<H3>" + obj.name + "</H3><p>Group: " + obj.group + "</p>"
+                            }
+                        },
                         nodeExtras: function (node) {
                             node && node
                                 .append("text")
@@ -394,14 +406,6 @@
             };
 
             $scope.welcome = "Hello";
-
-            $scope.closeAuthorGraph = function () {
-
-                console.log($scope.infoTablePaper+ " " + $scope.showAuthorChats);
-
-                $scope.infoTablePaper = true;
-                $scope.showAuthorChats = false;
-            };
 
             $scope.showAuthorConfGraph = function () {
 
