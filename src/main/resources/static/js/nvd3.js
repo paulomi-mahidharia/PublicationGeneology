@@ -9,7 +9,14 @@
             $scope.infoTablePaper = false;
             $scope.showAuthorChats = false;
             $scope.infoTableAuthorByConference = false;
-            $scope.foundCoAuthors = true;
+            $scope.foundCoAuthors = false;
+
+            var nodes = [];
+            var links = [];
+            var group = 0;
+            var nameIntMap = [];
+            var int = 0;
+            var coAuthorInfo = [];
 
             console.log($scope.result);
             
@@ -19,7 +26,7 @@
                 $scope.infoTableAuthor = false;
                 $scope.infoTablePaper = false;
                 $scope.showAuthorChats = false;
-                $scope.foundCoAuthors = true;
+                $scope.foundCoAuthors = false;
 
                 $scope.topValue = "10";
                 $scope.topValues = ["5", "10", "20", "30"];
@@ -56,12 +63,14 @@
 
             $scope.searchPublication = function () {
 
-                var nodes = [];
-                var links = [];
-                var group = 0;
-                var nameIntMap = [];
-                var int = 0;
-                var coAuthorInfo = [];
+                nodes = [];
+                links = [];
+                group = 0;
+                nameIntMap = [];
+                int = 0;
+                coAuthorInfo = [];
+
+                $scope.foundCoAuthors = false;
                 $scope.predicate = '';
                 $scope.loadingSpinnerForTable = true;
                 $scope.showConfAuthorCharts = false;
@@ -155,14 +164,14 @@
                     });
             };
 
-            var nodes = [];
-            var links = [];
-            var group = 0;
-            var nameIntMap = [];
-            var int = 0;
-            var coAuthorInfo = [];
-
             $scope.getPaperInfo = function (paper) {
+
+                nodes = [];
+                links = [];
+                group = 0;
+                nameIntMap = [];
+                int = 0;
+                coAuthorInfo = [];
 
                 console.log(paper);
                 $scope.loading = true;
@@ -210,13 +219,20 @@
 
                         console.log(links);
 
+                        var i = 0;
+                        var authorsLength = $scope.selectedPaperAuthors.length;
+
                         angular.forEach($scope.selectedPaperAuthors, function (author) {
 
                             AppService.getCoAuthors(author.authorId, paper.paperId, paper.year)
                                 .then(function (response) {
                                     coAuthorInfo.push({author: author, coAuthors: response.data});
                                     console.log("Done");
-                                    $scope.foundCoAuthors = false;
+                                    i = i + 1;
+                                    if(i == authorsLength) {
+                                        $scope.foundCoAuthors = true;
+                                    }
+
                                 });
                         });
 

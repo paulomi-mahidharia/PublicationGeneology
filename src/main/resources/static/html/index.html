@@ -193,10 +193,11 @@
 
         <div ng-show="infoTablePaper">
 
-            <h1>Paper Info<input style="float: right" type="button" class="btn btn-custom btn-lg btn-block button-custom" ng-disabled="foundCoAuthors" value="Show Graph" ng-click="showAuthorGraph()"></h1>
+            <h1>Paper Info<input style="float: right" type="button" ng-class="{'btn btn-custom btn-lg btn-block button-custom': foundCoAuthors, 'btn btn-block': !foundCoAuthors}" ng-disabled="!foundCoAuthors" value="Show Graph" ng-click="showAuthorGraph()"></h1>
             <p><label><b>Title:</b> </label> {{selectedPaper.title}}</p>
             <p><label><b>Conference Name:</b> </label> {{selectedPaper.conferenceName}}</p>
             <p><label><b>Book Title:</b> </label> {{selectedPaper.bookTitle}}</p>
+            <p><label><b>Year:</b></label> {{selectedPaper.year}}</p>
             <p><label><b>Authors:</b></label></p>
             <ul ng-repeat="selectedPaperAuthor in selectedPaperAuthors">
                 <li>{{selectedPaperAuthor.name}}</li>
@@ -205,7 +206,7 @@
 
         <div ng-show="infoTableAuthor" style="overflow: scroll">
 
-            <h1>Author Info<input style="float: right" type="button" value="Show Graph" ng-click="showPaperGraph()"></h1>
+            <h1>Author Info<input style="float: right" type="button" class="btn btn-custom btn-lg btn-block button-custom" value="Show Graph" ng-click="showPaperGraph()"></h1>
             <p><label><b>Name:</b> </label> {{selectedAuthor.name}}</p>
             <p><label><b>Affiliation:</b> </label> {{selectedAuthor.affiliation}}</p>
             <p><label><b>Web URL:</b></label>
