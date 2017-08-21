@@ -1,9 +1,6 @@
 package edu.neu.msproject.PulicationGeneology.service;
 
-import edu.neu.msproject.PulicationGeneology.model.Author;
-import edu.neu.msproject.PulicationGeneology.model.Paper;
-import edu.neu.msproject.PulicationGeneology.model.PaperInfo;
-import edu.neu.msproject.PulicationGeneology.model.SearchCriteria;
+import edu.neu.msproject.PulicationGeneology.model.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -25,4 +22,6 @@ public interface SearchService {
 	List<Author> searchAuthorsByCriteria(SearchCriteria criteria) throws SQLException;
 
 	List<PaperInfo> searchPapersByKeyword(String keyword) throws SQLException;
+
+    List<PaperCitation> getTopCitedPapersForTopic(String top, String title);
 }

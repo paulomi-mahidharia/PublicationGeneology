@@ -110,4 +110,15 @@ public class SearchController {
 
         return (Set) new HashSet(conferences);
     }
+
+    @RequestMapping(value = "/papers/citations/top/{top}", method = RequestMethod.POST)
+    public List<PaperCitation> getTopCitedPapersForTopic(@PathVariable(value = "top", required = true) final String top,
+                                                         @RequestParam(value = "title", required = true) final String title) throws SQLException {
+
+        List<PaperCitation> paperCitations = new ArrayList<>();
+        SearchService searchService = new SearchServiceImpl();
+
+        paperCitations = searchService.getTopCitedPapersForTopic(top, title);
+        return paperCitations;
+    }
 }

@@ -7,12 +7,11 @@ import edu.neu.msproject.PulicationGeneology.dao.SearchPaperDaoImpl;
 import edu.neu.msproject.PulicationGeneology.model.*;
 import edu.neu.msproject.PulicationGeneology.util.*;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SearchServiceImpl implements SearchService {
 
@@ -192,5 +191,100 @@ public class SearchServiceImpl implements SearchService {
 		SearchPaperDao searchPaperDao = new SearchPaperDaoImpl();
 		List<PaperInfo> papers = searchPaperDao.searchPapersByKeyword(query);
 		return papers;
+	}
+
+	@Override
+	public List<PaperCitation> getTopCitedPapersForTopic(String top, String title) {
+
+		String home = "";
+
+        try{
+            home = System.getenv("PY_HOME");
+            System.out.println(home);
+
+            if(home.isEmpty()) {
+                System.out.println("Make sure you have a Env variable PY_HOME pointing to scholar.py directory!");
+            }
+        }catch (Exception e){
+            System.out.println("Make sure you have a Env variable PY_HOME pointing to scholar.py directory!");
+        }
+
+		//in mac oxs
+		String command = "./scholar.py --phrase \"" + title + "\"";
+		List<PaperCitation> paperCitations = null;
+
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec(command, null, new File(home));
+			p.waitFor();
+			BufferedReader reader =
+					new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+			paperCitations = new ArrayList<>();
+			PaperCitation paperCitation = new PaperCitation();
+
+			String line;
+			while ((line = reader.readLine())!= null) {
+
+				if(line.length() == 0) {
+					paperCitations.add(paperCitation);
+					paperCitation = new PaperCitation();
+					continue;
+				}
+				String key = line.substring(0, 14).trim();
+				String value = line.substring(15).trim();
+
+				switch (key) {
+					case "Title":
+						paperCitation.setTitle(value);
+						break;
+					case "URL":
+						paperCitation.setURL(value);
+						break;
+					case "Year":
+						paperCitation.setYear(value);
+						break;
+					case "Citations":
+						paperCitation.setCitations(value);
+						break;
+					case "Versions":
+						paperCitation.setVersions(value);
+						break;
+					case "Cluster ID":
+						paperCitation.setClusterId(value);
+						break;
+					case "PDF link":
+						paperCitation.setPdfLink(value);
+						break;
+					case "Citations list":
+						paperCitation.setCitationsList(value);
+						break;
+					case "Versions list":
+						paperCitation.setVersionsList(value);
+						break;
+					case "Excerpt":
+						paperCitation.setExcerpt(value);
+						break;
+					default:
+						break;
+				}
+			}
+			System.out.println();
+			reader.close();
+
+			paperCitations.sort(new MyComparator());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return paperCitations;
+	}
+}
+
+class MyComparator implements Comparator<PaperCitation> {
+	@Override
+	public int compare(PaperCitation o1, PaperCitation o2) {
+		int o1v = Integer.parseInt(o1.getCitations());
+		int o2v = Integer.parseInt(o2.getCitations());
+		return o1v == o2v? 0: o1v>o2v? -1: 1;
 	}
 }
