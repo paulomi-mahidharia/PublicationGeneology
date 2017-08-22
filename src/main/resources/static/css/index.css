@@ -2,12 +2,13 @@
 	:: Login Section
 	-------------------------------------------------- */
 /*#login {*/
-    /*padding-top: 50px*/
+/*padding-top: 50px*/
 /*}*/
 #login .form-wrap {
     width: 30%;
     margin: 0 auto;
 }
+
 #login h1 {
     color: #1fa67b;
     font-size: 18px;
@@ -15,9 +16,11 @@
     font-weight: bold;
     padding-bottom: 20px;
 }
+
 #login .form-group {
     margin-bottom: 25px;
 }
+
 #login .checkbox {
     margin-bottom: 20px;
     position: relative;
@@ -27,6 +30,7 @@
     -o-user-select: none;
     user-select: none;
 }
+
 #login .checkbox.show:before {
     content: '\e013';
     color: #1fa67b;
@@ -36,6 +40,7 @@
     pointer-events: none;
     font-family: 'Glyphicons Halflings';
 }
+
 #login .checkbox .character-checkbox {
     width: 25px;
     height: 25px;
@@ -45,15 +50,18 @@
     vertical-align: middle;
     display: inline-block;
 }
+
 #login .checkbox .label {
     color: #6d6d6d;
     font-size: 13px;
     font-weight: normal;
 }
+
 #login .btn.btn-custom {
     font-size: 14px;
     margin-bottom: 20px;
 }
+
 #login .forget {
     font-size: 13px;
     text-align: center;
@@ -66,10 +74,12 @@
 .form-control {
     color: #212121 !important;
 }
+
 .btn-custom {
     color: #fff;
     background-color: #1fa67b;
 }
+
 .btn-custom:hover,
 .btn-custom:focus {
     color: #fff;
@@ -83,23 +93,25 @@
     font-size: 12px;
     text-align: center;
 }
+
 #footer p {
     margin-bottom: 0;
 }
+
 #footer a {
     color: inherit;
 }
 
-.text-box{
+.text-box {
     padding: 10px !important;
     width: 80%;
 }
 
-.button-custom{
+.button-custom {
     width: 30%;
 }
 
-h1{
+h1 {
     color: #1fa67b !important;
     font-size: 18px !important;
     text-align: center !important;

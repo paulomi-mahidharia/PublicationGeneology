@@ -1,104 +1,101 @@
 package edu.neu.msproject.PulicationGeneology.model;
 
-import java.util.Date;
-
 public class Paper {
 
 
+    public String keyword;
+    private int numOfPapersPublished;
+    private boolean isPublished;
+    private String conferenceName;
+    private boolean contains;
+    private String options;
+    private int startDate;
+    private int endDate;
 
-	private int numOfPapersPublished;
-	private  boolean isPublished;
-	private  String conferenceName;
-	private  boolean contains;
-	private  String options;
-	private  int startDate;
-	private  int endDate;
-	public String keyword;
-	
-	public Paper(int numOfPapersPublished, boolean isPublished, String conferenceName, boolean contains, String options,
-			int startDate, int endDate, String keyword) {
-		super();
-		this.numOfPapersPublished = numOfPapersPublished;
-		this.isPublished = isPublished;
-		this.conferenceName = conferenceName;
-		this.contains = contains;
-		this.options = options;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.keyword = keyword;
-	}
-
-
-	public Paper(){
-		this.conferenceName = "";
-		this.numOfPapersPublished = 0;
-		this.startDate = 0;
-		this.endDate = 0;
-		this.options = "";
-	}
+    public Paper(int numOfPapersPublished, boolean isPublished, String conferenceName, boolean contains, String options,
+                 int startDate, int endDate, String keyword) {
+        super();
+        this.numOfPapersPublished = numOfPapersPublished;
+        this.isPublished = isPublished;
+        this.conferenceName = conferenceName;
+        this.contains = contains;
+        this.options = options;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.keyword = keyword;
+    }
 
 
-	public int getNumOfPapersPublished() {
-		return numOfPapersPublished;
-	}
+    public Paper() {
+        this.conferenceName = "";
+        this.numOfPapersPublished = 0;
+        this.startDate = 0;
+        this.endDate = 0;
+        this.options = "";
+    }
 
-	public void setNumOfPapersPublished(int numOfPapersPublished) {
-		this.numOfPapersPublished = numOfPapersPublished;
-	}
 
-	public boolean isContains() {
-		return contains;
-	}
+    public int getNumOfPapersPublished() {
+        return numOfPapersPublished;
+    }
 
-	public void setContains(boolean contains) {
-		this.contains = contains;
-	}
+    public void setNumOfPapersPublished(int numOfPapersPublished) {
+        this.numOfPapersPublished = numOfPapersPublished;
+    }
 
-	public String getConferenceName() {
-		return conferenceName;
-	}
+    public boolean isContains() {
+        return contains;
+    }
 
-	public void setConferenceName(String conferenceName) {
-		this.conferenceName = conferenceName;
-	}
+    public void setContains(boolean contains) {
+        this.contains = contains;
+    }
 
-	public boolean isPublished() {
-		return isPublished;
-	}
+    public String getConferenceName() {
+        return conferenceName;
+    }
 
-	public void setPublished(boolean isPublished) {
-		this.isPublished = isPublished;
-	}
+    public void setConferenceName(String conferenceName) {
+        this.conferenceName = conferenceName;
+    }
 
-	public String getOptions() {
-		return options;
-	}
+    public boolean isPublished() {
+        return isPublished;
+    }
 
-	public void setOptions(String options) {
-		this.options = options;
-	}
+    public void setPublished(boolean isPublished) {
+        this.isPublished = isPublished;
+    }
 
-	public int getStartDate() {
-		return startDate;
-	}
+    public String getOptions() {
+        return options;
+    }
 
-	public void setStartDate(int startDate) {
-		this.startDate = startDate;
-	}
+    public void setOptions(String options) {
+        this.options = options;
+    }
 
-	public int getEndDate() {
-		return endDate;
-	}
+    public int getStartDate() {
+        return startDate;
+    }
 
-	public void setEndDate(int endDate) {
-		this.endDate = endDate;
-	}
+    public void setStartDate(int startDate) {
+        this.startDate = startDate;
+    }
 
-	public String getKeyword() {
-		return keyword;
-	}
+    public int getEndDate() {
+        return endDate;
+    }
 
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
-	}
+    public void setEndDate(int endDate) {
+        this.endDate = endDate;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
 }

@@ -14,11 +14,11 @@ import java.util.List;
  */
 public interface SearchPaperDao {
 
-	public List<AuthorPaper> retrievePapers(String queryString) throws SQLException;
+    public List<AuthorPaper> retrievePapers(String queryString) throws SQLException;
 
-	public List<PaperInfo> searchPapersByKeyword(String queryString) throws SQLException;
+    public List<PaperInfo> searchPapersByKeyword(String queryString) throws SQLException;
 
-	List<CoAuthor> getCoAuthors(String queryString) throws SQLException;
+    List<CoAuthor> getCoAuthors(String queryString) throws SQLException;
 
-	List<Author> getTopAuthorsForConference(String query) throws SQLException;
+    List<Author> getTopAuthorsForConference(String query) throws SQLException;
 }

@@ -154,9 +154,11 @@
                                 // categories.push({"label": paper.title});
                                 // data.push({"value": paper.citations});
 
-                                data.push({label: paper.title,
+                                data.push({
+                                    label: paper.title,
                                     value: paper.citations,
-                                    link: "P-detailsWin,width=400,height=300,toolbar=no,scrollbars=yes, resizable=no-"+paper.citationsList});
+                                    link: "P-detailsWin,width=400,height=300,toolbar=no,scrollbars=yes, resizable=no-" + paper.citationsList
+                                });
                             })
                         })
                 }

@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Created by paulomimahidharia on 6/9/17.
@@ -24,14 +27,14 @@ public class SearchController {
 
         SearchService searchService = new SearchServiceImpl();
         List<Author> authors = searchService.searchAuthorsByCriteria(criteria);
-        System.out.println("AUT : "+authors.size());
+        System.out.println("AUT : " + authors.size());
         return authors;
     }
 
     @RequestMapping(value = "/search/paper/", method = RequestMethod.POST)
     public List<PaperInfo> searchPaperByKeyword(@RequestParam(value = "keyword", required = true) final String keyword) throws SQLException, IOException {
 
-        System.out.println("CON : "+keyword);
+        System.out.println("CON : " + keyword);
 
         Paper paperInfo = new Paper();
         paperInfo.setKeyword(keyword);
@@ -49,7 +52,7 @@ public class SearchController {
     @RequestMapping(value = "/search/paper/authors", method = RequestMethod.POST)
     public List<Author> searchAuthorsForPaper(@RequestParam(value = "title", required = true) final String keyword) throws SQLException, IOException {
 
-        System.out.println("CON : "+keyword);
+        System.out.println("CON : " + keyword);
 
         Paper paperInfo = new Paper();
         paperInfo.setKeyword(keyword);
@@ -82,10 +85,10 @@ public class SearchController {
 
     @RequestMapping(value = "/search/author/{authorId}/papers/year/{year}", method = RequestMethod.POST)
     public List<CoAuthor> getCoAuthors(@PathVariable(value = "authorId", required = true) final String authorId,
-                                                         @RequestParam(value = "excludePaper", required = true) final String paperId,
-                                                         @PathVariable(value = "year", required = true) final String year) throws SQLException, IOException {
+                                       @RequestParam(value = "excludePaper", required = true) final String paperId,
+                                       @PathVariable(value = "year", required = true) final String year) throws SQLException, IOException {
 
-        System.out.println("Finding papers for author "+authorId+" in year "+year);
+        System.out.println("Finding papers for author " + authorId + " in year " + year);
         AuthorInfoService authorInfoService = new AuthorInfoServiceImpl();
         return authorInfoService.getCoAuthors(Integer.parseInt(authorId), Integer.parseInt(paperId), year);
     }

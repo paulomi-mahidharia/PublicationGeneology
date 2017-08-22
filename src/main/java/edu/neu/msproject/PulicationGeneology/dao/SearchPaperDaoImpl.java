@@ -16,141 +16,140 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class is use to implement SearchPaperDao to retrieve List of Author Paper mapping objects 
- *
+ * This class is use to implement SearchPaperDao to retrieve List of Author Paper mapping objects
  */
 public class SearchPaperDaoImpl implements SearchPaperDao {
 
-	/**
-	 * @param A query String to retrieve a list of AuthorPaper from database
-	 * @return A list of AuthorPaper Mapping
-	 * Retrieve a list of  Author Paper mappings from database.
-	 */
+    /**
+     * @param A query String to retrieve a list of AuthorPaper from database
+     * @return A list of AuthorPaper Mapping
+     * Retrieve a list of  Author Paper mappings from database.
+     */
 
-	private Connection conn = DatabaseConnection.getConn();
-	
-	@Override
-	public List<AuthorPaper> retrievePapers(String queryString) throws SQLException {
-		
-		PreparedStatement stmt = conn.prepareStatement(queryString);
-		ResultSet rs = stmt.executeQuery();
-		
-		List<AuthorPaper> papers = new ArrayList<AuthorPaper>();
-		while(rs.next()){
-			AuthorPaper p = new AuthorPaper();
-			p.setPaperId(Integer.parseInt(rs.getString(1)));
-			p.setPaperTitle(rs.getString(3));
-			p.setYear(Integer.parseInt(rs.getString(5)));
-			p.setConfName(rs.getString(8));
-			p.setUrl(rs.getString(7));
-			
-			papers.add(p);
-		}
-		return papers;
-	}
+    private Connection conn = DatabaseConnection.getConn();
 
-	@Override
-	public List<PaperInfo> searchPapersByKeyword(String queryString) throws SQLException {
+    @Override
+    public List<AuthorPaper> retrievePapers(String queryString) throws SQLException {
 
-		PreparedStatement stmt = conn.prepareStatement(queryString);
-		ResultSet rs = stmt.executeQuery();
+        PreparedStatement stmt = conn.prepareStatement(queryString);
+        ResultSet rs = stmt.executeQuery();
 
-		List<PaperInfo> papers = new ArrayList<PaperInfo>();
-		while(rs.next()){
-			PaperInfo p = new PaperInfo();
-			p.setPaperId(rs.getString("paper_id"));
-			p.setPaperKey(rs.getString("paper_key"));
-			p.setTitle(rs.getString("title"));
-			p.setBookTitle(rs.getString("book_title"));
-			p.setYear(rs.getString("year"));
-			p.setConferenceKey(rs.getString("conference"));
-			p.setConferenceName(rs.getString("conference_name"));
-			p.setConferenceUrl(rs.getString("url"));
+        List<AuthorPaper> papers = new ArrayList<AuthorPaper>();
+        while (rs.next()) {
+            AuthorPaper p = new AuthorPaper();
+            p.setPaperId(Integer.parseInt(rs.getString(1)));
+            p.setPaperTitle(rs.getString(3));
+            p.setYear(Integer.parseInt(rs.getString(5)));
+            p.setConfName(rs.getString(8));
+            p.setUrl(rs.getString(7));
 
-			papers.add(p);
-		}
-		return papers;
-	}
+            papers.add(p);
+        }
+        return papers;
+    }
 
-	@Override
-	public List<CoAuthor> getCoAuthors(String queryString) throws SQLException {
+    @Override
+    public List<PaperInfo> searchPapersByKeyword(String queryString) throws SQLException {
 
-		PreparedStatement stmt = conn.prepareStatement(queryString);
-		ResultSet rs = stmt.executeQuery();
+        PreparedStatement stmt = conn.prepareStatement(queryString);
+        ResultSet rs = stmt.executeQuery();
 
-		Map<Integer, List<Author>> paperAuthors = new HashMap<>();
-		Map<Integer, AuthorPaper> paperInfo = new HashMap<>();
+        List<PaperInfo> papers = new ArrayList<PaperInfo>();
+        while (rs.next()) {
+            PaperInfo p = new PaperInfo();
+            p.setPaperId(rs.getString("paper_id"));
+            p.setPaperKey(rs.getString("paper_key"));
+            p.setTitle(rs.getString("title"));
+            p.setBookTitle(rs.getString("book_title"));
+            p.setYear(rs.getString("year"));
+            p.setConferenceKey(rs.getString("conference"));
+            p.setConferenceName(rs.getString("conference_name"));
+            p.setConferenceUrl(rs.getString("url"));
 
-		List<CoAuthor> coAuthors = new ArrayList<>();
+            papers.add(p);
+        }
+        return papers;
+    }
 
-		while(rs.next()){
+    @Override
+    public List<CoAuthor> getCoAuthors(String queryString) throws SQLException {
 
-			int paperId = Integer.parseInt(rs.getString("paper_id"));
+        PreparedStatement stmt = conn.prepareStatement(queryString);
+        ResultSet rs = stmt.executeQuery();
 
-			Author author = new Author();
-			author.setAuthorId(Integer.parseInt(rs.getString("Id")));
-			author.setName(rs.getString("Name"));
-			author.setAffiliation(rs.getString("affiliation"));
-			author.setUrl(rs.getString("url"));
+        Map<Integer, List<Author>> paperAuthors = new HashMap<>();
+        Map<Integer, AuthorPaper> paperInfo = new HashMap<>();
 
-			List<Author> authors;
-			if(paperAuthors.containsKey(paperId)) {
-				authors = paperAuthors.get(paperId);
-			} else{
-				authors = new ArrayList<>();
-			}
-			authors.add(author);
-			paperAuthors.put(paperId, authors);
+        List<CoAuthor> coAuthors = new ArrayList<>();
 
-			if(!paperInfo.containsKey(paperId)) {
-				AuthorPaper authorPaper = new AuthorPaper();
-				authorPaper.setPaperId(paperId);
-				authorPaper.setPaperTitle(rs.getString("title"));
-				authorPaper.setConfName(rs.getString("conference_name"));
-				authorPaper.setYear(Integer.parseInt(rs.getString("year")));
-				paperInfo.put(paperId, authorPaper);
-			}
-		}
+        while (rs.next()) {
 
-		CoAuthor coAuthor;
-		for(Integer paper: paperInfo.keySet()){
+            int paperId = Integer.parseInt(rs.getString("paper_id"));
 
-			AuthorPaper authorPaper = paperInfo.get(paper);
-			List<Author> authors = paperAuthors.get(paper);
+            Author author = new Author();
+            author.setAuthorId(Integer.parseInt(rs.getString("Id")));
+            author.setName(rs.getString("Name"));
+            author.setAffiliation(rs.getString("affiliation"));
+            author.setUrl(rs.getString("url"));
 
-			coAuthor = new CoAuthor();
-			coAuthor.setPaperId(authorPaper.getPaperId());
-			coAuthor.setTitle(authorPaper.getPaperTitle());
-			coAuthor.setYear(authorPaper.getYear());
-			coAuthor.setConfName(authorPaper.getConfName());
-			coAuthor.setAuthors(authors);
+            List<Author> authors;
+            if (paperAuthors.containsKey(paperId)) {
+                authors = paperAuthors.get(paperId);
+            } else {
+                authors = new ArrayList<>();
+            }
+            authors.add(author);
+            paperAuthors.put(paperId, authors);
 
-			coAuthors.add(coAuthor);
-		}
-		return coAuthors;
-	}
+            if (!paperInfo.containsKey(paperId)) {
+                AuthorPaper authorPaper = new AuthorPaper();
+                authorPaper.setPaperId(paperId);
+                authorPaper.setPaperTitle(rs.getString("title"));
+                authorPaper.setConfName(rs.getString("conference_name"));
+                authorPaper.setYear(Integer.parseInt(rs.getString("year")));
+                paperInfo.put(paperId, authorPaper);
+            }
+        }
 
-	@Override
-	public List<Author> getTopAuthorsForConference(String query) throws SQLException {
+        CoAuthor coAuthor;
+        for (Integer paper : paperInfo.keySet()) {
 
-		PreparedStatement stmt = conn.prepareStatement(query);
-		ResultSet rs = stmt.executeQuery();
+            AuthorPaper authorPaper = paperInfo.get(paper);
+            List<Author> authors = paperAuthors.get(paper);
 
-		List<Author> authors = new ArrayList<>();
+            coAuthor = new CoAuthor();
+            coAuthor.setPaperId(authorPaper.getPaperId());
+            coAuthor.setTitle(authorPaper.getPaperTitle());
+            coAuthor.setYear(authorPaper.getYear());
+            coAuthor.setConfName(authorPaper.getConfName());
+            coAuthor.setAuthors(authors);
 
-		while(rs.next()){
+            coAuthors.add(coAuthor);
+        }
+        return coAuthors;
+    }
 
-			Author author = new Author();
-			System.out.println(rs.getInt(1));
-			author.setAuthorId(rs.getInt(1));
-			author.setName(rs.getString(2));
-			author.setAffiliation(rs.getString(3));
-			author.setUrl(rs.getString(4));
-			author.setPaperCount(rs.getInt(5));
+    @Override
+    public List<Author> getTopAuthorsForConference(String query) throws SQLException {
 
-			authors.add(author);
-		}
-		return authors;
-	}
+        PreparedStatement stmt = conn.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery();
+
+        List<Author> authors = new ArrayList<>();
+
+        while (rs.next()) {
+
+            Author author = new Author();
+            System.out.println(rs.getInt(1));
+            author.setAuthorId(rs.getInt(1));
+            author.setName(rs.getString(2));
+            author.setAffiliation(rs.getString(3));
+            author.setUrl(rs.getString(4));
+            author.setPaperCount(rs.getInt(5));
+
+            authors.add(author);
+        }
+        return authors;
+    }
 
 }

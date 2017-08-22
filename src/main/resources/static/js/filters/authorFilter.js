@@ -8,12 +8,12 @@
 
                 var newAuthors = [];
                 angular.forEach(authors, function (localAuthor) {
-                    
-                    if(localAuthor.authorId !== author) {
+
+                    if (localAuthor.authorId !== author) {
                         newAuthors.push(localAuthor)
                     }
                 });
-                
+
                 return newAuthors;
             };
         })

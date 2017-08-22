@@ -10,32 +10,34 @@ import java.util.List;
 
 public class ConferenceServiceImpl implements ConferenceService {
 
-	SearchConferenceDao searchConfDao = new SearchConferenceDaoImpl();
-	/**
-	 * Retrieves list of conferences from database.
-	 * @Given:This method does not take anything
-	 * @return: A List of conferences
-	 * @exception:SQL Exception
-	 */
+    SearchConferenceDao searchConfDao = new SearchConferenceDaoImpl();
 
-	@Override
-	public List<Conference> retrieveAllConferences() throws SQLException {
-		
-		String queryString = "SELECT DISTINCT name FROM conference";
-		
-		List<Conference> conferences = searchConfDao.retrieveDistinctConf(queryString);
-		
-		return conferences;
-		
-	}
+    /**
+     * Retrieves list of conferences from database.
+     *
+     * @Given:This method does not take anything
+     * @return: A List of conferences
+     * @exception:SQL Exception
+     */
 
-	@Override
-	public List<Conference> getAllPaperConferences() throws SQLException {
+    @Override
+    public List<Conference> retrieveAllConferences() throws SQLException {
 
-		String queryString = "SELECT DISTINCT conference_name FROM paper;";
+        String queryString = "SELECT DISTINCT name FROM conference";
 
-		List<Conference> conferences = searchConfDao.retrieveDistinctConf(queryString);
+        List<Conference> conferences = searchConfDao.retrieveDistinctConf(queryString);
 
-		return conferences;
-	}
+        return conferences;
+
+    }
+
+    @Override
+    public List<Conference> getAllPaperConferences() throws SQLException {
+
+        String queryString = "SELECT DISTINCT conference_name FROM paper;";
+
+        List<Conference> conferences = searchConfDao.retrieveDistinctConf(queryString);
+
+        return conferences;
+    }
 }

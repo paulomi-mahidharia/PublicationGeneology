@@ -20,7 +20,7 @@
         };
 
         return api;
-        
+
         function searchAuthor(authorName) {
 
             var data = $.param({
@@ -29,8 +29,9 @@
 
             var config = {
                 headers: {
-                    'Accept' : '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                    'Accept': '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
             };
 
             return $http.post("./../search/author/", data, config);
@@ -44,13 +45,14 @@
 
             var config = {
                 headers: {
-                    'Accept' : '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                    'Accept': '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
             };
 
             return $http.post("./../search/paper/", data, config);
         }
-        
+
         function searchAuthorsForPaper(title) {
 
             var data = $.param({
@@ -59,42 +61,45 @@
 
             var config = {
                 headers: {
-                    'Accept' : '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                    'Accept': '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
             };
 
             return $http.post("./../search/paper/authors", data, config);
         }
-        
+
         function searchPapersForAuthor(authorId) {
 
-            console.log("Finding author for id : "+authorId);
+            console.log("Finding author for id : " + authorId);
 
             var config = {
                 headers: {
-                    'Accept' : '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                    'Accept': '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
             };
 
-            return $http.get("./../search/author/"+authorId+"/papers", config);
+            return $http.get("./../search/author/" + authorId + "/papers", config);
         }
 
         function searchConferencesForAuthor(authorId) {
 
-            console.log("Finding author for id : "+authorId);
+            console.log("Finding author for id : " + authorId);
 
             var config = {
                 headers: {
-                    'Accept' : '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                    'Accept': '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
             };
 
-            return $http.get("./../search/author/"+authorId+"/conferences", config);
+            return $http.get("./../search/author/" + authorId + "/conferences", config);
         }
 
         function getCoAuthors(authorId, paperId, year) {
 
-            console.log("Finding papers for author "+authorId+" in year "+year);
+            console.log("Finding papers for author " + authorId + " in year " + year);
 
             var data = $.param({
                 excludePaper: paperId
@@ -102,35 +107,38 @@
 
             var config = {
                 headers: {
-                    'Accept' : '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                    'Accept': '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
             };
 
-            return $http.post("./../search/author/"+authorId+"/papers/year/"+year, data, config);
+            return $http.post("./../search/author/" + authorId + "/papers/year/" + year, data, config);
         }
-        
+
         function getTopAuthorsForConference(conference, top) {
 
             var config = {
                 headers: {
-                    'Accept' : '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                    'Accept': '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
             };
 
-            return $http.get("./../search/conference/"+ conference +"/authors/top/"+ top, config);
+            return $http.get("./../search/conference/" + conference + "/authors/top/" + top, config);
         }
-        
+
         function getAllConferences() {
 
             var config = {
                 headers: {
-                    'Accept' : '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                    'Accept': '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
             };
 
             return $http.get("./../search/conferences", config);
         }
-        
+
         function getTopCitedPapersForTopic(topic) {
 
             var data = $.param({
@@ -139,8 +147,9 @@
 
             var config = {
                 headers: {
-                    'Accept' : '*/*',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+                    'Accept': '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                }
             };
 
             return $http.post("./../papers/citations/top/5", data, config);
