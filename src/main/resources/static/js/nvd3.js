@@ -17,9 +17,11 @@
             var nameIntMap = [];
             var int = 0;
             var coAuthorInfo = [];
+            var categories = [];
+            var data = [];
 
             console.log($scope.result);
-            
+
             function init() {
 
                 $scope.pageTitle = "Search by Author or Paper title/keyword";
@@ -36,7 +38,7 @@
                 AppService.getAllConferences()
                     .then(function (response) {
                         angular.forEach(response.data, function (conf) {
-                            if($scope.conferences.indexOf(conf.name) == -1) {
+                            if ($scope.conferences.indexOf(conf.name) == -1) {
                                 $scope.conferences.push(conf.name);
                             }
                         });
@@ -45,13 +47,15 @@
                         console.log($scope.conferences);
                     })
 
-            }init();
+            }
 
-            $scope.getConferences = function(searchText) {
+            init();
+
+            $scope.getConferences = function (searchText) {
                 var deferred = $q.defer();
 
-                $timeout(function() {
-                    var conferences = $scope.conferences.filter(function(conference) {
+                $timeout(function () {
+                    var conferences = $scope.conferences.filter(function (conference) {
                         return (conference.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
                     });
                     deferred.resolve(conferences);
@@ -69,11 +73,17 @@
                 nameIntMap = [];
                 int = 0;
                 coAuthorInfo = [];
+                categories = [];
+                data = [];
 
                 $scope.foundCoAuthors = false;
                 $scope.predicate = '';
                 $scope.loadingSpinnerForTable = true;
+                $scope.showChats = false;
+                $scope.showAuthorChats = false;
                 $scope.showConfAuthorCharts = false;
+                $scope.showCitationCharts = false;
+                $scope.infoTableTopCitedPapers = false;
 
                 var selection = $scope.result;
 
@@ -107,9 +117,9 @@
                 }
 
                 if (selection === 'conference') {
+
                     $scope.loadingSpinnerForTable = false;
                     $scope.loading = true;
-                    $scope.predicate = 'conference';
 
                     var conferenceName = $scope.conferenceName;
                     console.log(conferenceName);
@@ -118,12 +128,39 @@
                         .then(function (response) {
                             console.log(response.data);
                             $scope.loading = false;
+                            $scope.predicate = 'conference';
                             $scope.authorsForConf = response.data;
                             $scope.infoTableAuthorByConference = true;
                         });
                 }
-            };
 
+                if (selection == 'paperCitation') {
+                    console.log("CITING");
+                    categories = [];
+                    data = [];
+
+                    $scope.loadingSpinnerForTable = false;
+                    $scope.loading = true;
+
+                    AppService.getTopCitedPapersForTopic($scope.topic)
+                        .then(function (response) {
+                            console.log("TOP CITE");
+                            console.log(response.data);
+                            $scope.topCitedPapers = response.data;
+                            $scope.loading = false;
+                            $scope.infoTableTopCitedPapers = true;
+
+                            angular.forEach($scope.topCitedPapers, function (paper) {
+                                // categories.push({"label": paper.title});
+                                // data.push({"value": paper.citations});
+
+                                data.push({label: paper.title,
+                                    value: paper.citations,
+                                    link: "P-detailsWin,width=400,height=300,toolbar=no,scrollbars=yes, resizable=no-"+paper.citationsList});
+                            })
+                        })
+                }
+            };
 
 
             $scope.getAuthorInfo = function (author) {
@@ -229,7 +266,7 @@
                                     coAuthorInfo.push({author: author, coAuthors: response.data});
                                     console.log("Done");
                                     i = i + 1;
-                                    if(i == authorsLength) {
+                                    if (i == authorsLength) {
                                         $scope.foundCoAuthors = true;
                                     }
 
@@ -237,6 +274,46 @@
                         });
 
                     });
+            };
+
+            $scope.newDataSource = {};
+            $scope.showTopCitedPapers = function () {
+
+                var globalCategories = [];
+                globalCategories.push({"category": categories});
+
+                console.log(data);
+
+                $scope.newDataSource = {
+
+                    chart: {
+                        caption: "TopCited papers for " + $scope.topic,
+                        subcaption: "Citation v/s Paper",
+                        "xaxisname": "Paper",
+                        "yaxisname": "Number of Citations",
+                        "bgColor": "#ffffff",
+                        //numberprefix: "$",
+                        theme: "ocean"
+                    },
+                    data: data
+
+                    //     "categories": globalCategories,
+                    //     "dataset": [
+                    //     {
+                    //         "seriesname": "Top Citations",
+                    //         "data": data
+                    //     },
+                    //     {
+                    //         "seriesname": "Top Citations",
+                    //         "renderas": "line",
+                    //         "showvalues": "0",
+                    //         "data": data
+                    //     }
+                    // ]
+                };
+
+                $scope.infoTableTopCitedPapers = false;
+                $scope.showCitationCharts = true;
             };
 
             $scope.showAuthorGraph = function () {
@@ -252,9 +329,9 @@
                         console.log(paper.paperId + " " + group);
                         angular.forEach(paper.authors, function (coAuthor) {
                             //int = int + 1;
-                            var existingAuthor = $filter('filter')(nodes, { name: coAuthor.name  }, true)[0];
+                            var existingAuthor = $filter('filter')(nodes, {name: coAuthor.name}, true)[0];
                             console.log(existingAuthor);
-                            if(typeof existingAuthor === 'undefined') {
+                            if (typeof existingAuthor === 'undefined') {
                                 nodes.push({"name": coAuthor.name, "group": group});
                                 nameIntMap.push({"name": coAuthor.name, "int": int});
                                 int = int + 1;
@@ -270,12 +347,19 @@
                     angular.forEach(author.coAuthors, function (paper) {
                         angular.forEach(paper.authors, function (coAuthor) {
                             var coAuthInt = $filter('filter')(nameIntMap, {name: coAuthor.name}, true)[0];
-                            console.log(author.author.name+" "+coAuthor.name);
+                            console.log(author.author.name + " " + coAuthor.name);
                             console.log(links);
-                            var existingLink = $filter('filter')(links, {source: currentAuthor.int, target: coAuthInt.int}, true)[0];
+                            var existingLink = $filter('filter')(links, {
+                                source: currentAuthor.int,
+                                target: coAuthInt.int
+                            }, true)[0];
                             if (typeof existingLink !== 'undefined') {
                                 console.log("link exist");
-                                links.push({"source": currentAuthor.int, "target": coAuthInt.int, "value": existingLink.value + 5});
+                                links.push({
+                                    "source": currentAuthor.int,
+                                    "target": coAuthInt.int,
+                                    "value": existingLink.value + 5
+                                });
                             } else {
                                 links.push({"source": currentAuthor.int, "target": coAuthInt.int, "value": 1});
                             }
@@ -294,11 +378,18 @@
                             angular.forEach(otherAuthors, function (otherAuthor) {
                                 var otherAuthorInt = $filter('filter')(nameIntMap, {name: otherAuthor.name}, true)[0];
 
-                                var existingLink = $filter('filter')(links, {source: coAuthInt.int, target: otherAuthorInt.int}, true)[0];
+                                var existingLink = $filter('filter')(links, {
+                                    source: coAuthInt.int,
+                                    target: otherAuthorInt.int
+                                }, true)[0];
 
                                 if (typeof existingLink !== 'undefined') {
                                     console.log("link exist");
-                                    links.push({"source": coAuthInt.int, "target": otherAuthorInt.int, "value": existingLink.value + 5});
+                                    links.push({
+                                        "source": coAuthInt.int,
+                                        "target": otherAuthorInt.int,
+                                        "value": existingLink.value + 5
+                                    });
                                 } else {
                                     links.push({"source": coAuthInt.int, "target": otherAuthorInt.int, "value": 1});
                                 }
@@ -320,9 +411,8 @@
                         color: function (d) {
                             return color(d.group)
                         },
-                        tooltip : {
-                            contentGenerator : function (obj)
-                            {
+                        tooltip: {
+                            contentGenerator: function (obj) {
                                 return "<H3>" + obj.name + "</H3><p>Group: " + obj.group + "</p>"
                             }
                         },
@@ -358,7 +448,7 @@
                 var newAuthors = [];
                 angular.forEach(authors, function (localAuthor) {
 
-                    if(localAuthor.authorId !== authorId) {
+                    if (localAuthor.authorId !== authorId) {
                         newAuthors.push(localAuthor)
                     }
                 });
@@ -438,8 +528,9 @@
                         showDistX: true,
                         showDistY: true,
                         tooltip: {
-                            contentGenerator: function(key) {
-                                return '<H3>' + key.series[0].key + '</H3><p>' + key.point.size + ' papers</p>'}
+                            contentGenerator: function (key) {
+                                return '<H3>' + key.series[0].key + '</H3><p>' + key.point.size + ' papers</p>'
+                            }
                         },
                         duration: 350,
                         xAxis: {
@@ -483,17 +574,18 @@
                         data.push({
                             key: group.name,
                             values: [{
-                                        x: random()
-                                        , y: random()
-                                        , size: group.paperCount
-                                        , shape: shapes[0]
-                                    }]
+                                x: random()
+                                , y: random()
+                                , size: group.paperCount
+                                , shape: shapes[0]
+                            }]
                         });
                         i++;
                     });
 
                     return data;
                 }
+
                 $scope.infoTableAuthorByConference = false;
                 $scope.showConfAuthorCharts = true;
             }

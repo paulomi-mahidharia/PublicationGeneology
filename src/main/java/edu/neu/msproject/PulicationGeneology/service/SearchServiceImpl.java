@@ -285,6 +285,6 @@ class MyComparator implements Comparator<PaperCitation> {
 	public int compare(PaperCitation o1, PaperCitation o2) {
 		int o1v = Integer.parseInt(o1.getCitations());
 		int o2v = Integer.parseInt(o2.getCitations());
-		return o1v == o2v? 0: o1v>o2v? -1: 1;
+		return o1v == o2v? 0: o1v > o2v ? -1: 1;
 	}
 }

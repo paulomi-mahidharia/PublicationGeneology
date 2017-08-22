@@ -15,7 +15,8 @@
             searchConferencesForAuthor: searchConferencesForAuthor,
             getCoAuthors: getCoAuthors,
             getTopAuthorsForConference: getTopAuthorsForConference,
-            getAllConferences: getAllConferences
+            getAllConferences: getAllConferences,
+            getTopCitedPapersForTopic: getTopCitedPapersForTopic
         };
 
         return api;
@@ -128,6 +129,21 @@
             };
 
             return $http.get("./../search/conferences", config);
+        }
+        
+        function getTopCitedPapersForTopic(topic) {
+
+            var data = $.param({
+                title: topic
+            });
+
+            var config = {
+                headers: {
+                    'Accept' : '*/*',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
+            };
+
+            return $http.post("./../papers/citations/top/5", data, config);
         }
     }
 })();

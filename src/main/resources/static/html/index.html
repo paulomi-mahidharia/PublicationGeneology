@@ -82,6 +82,21 @@
                     <input ng-model="result"
                            type="radio"
                            name="search"
+                           ng-value="'paperCitation'">
+
+                    <input ng-model="topic"
+                           type="text"
+                           name="paper-cite-search"
+                           id="paperCitation"
+                           class="form-control text-box"
+                           style="width: 80%"
+                           placeholder="Search top cited papers for a topic">
+                </div>
+
+                <div class="form-group">
+                    <input ng-model="result"
+                           type="radio"
+                           name="search"
                            ng-value="'conference'">
 
                     <span>Top: </span>
@@ -184,7 +199,7 @@
         </section>
     </div>
 
-    <div style="margin-left: 55%; padding: 50px 15px 15px 15px;">
+    <div style="margin-left: 53%; padding: 0px 15px 15px 15px;">
 
         <img id="mySpinner"
              style="margin-top: 40%; margin-left: 25%;"
@@ -234,6 +249,7 @@
             </table>
             </div>
 
+            <div ng-show="selectedAuthorConferences.length > 0">
             <p><label><b>Conferences:</b></label></p>
             <div style="height:300px; overflow:auto;">
                 <table class="responstable">
@@ -252,6 +268,28 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            </div>
+        </div>
+
+        <div ng-show="infoTableTopCitedPapers">
+
+            <h1>Top cited papers for {{topic}}<input style="float: right" type="button" class="btn btn-custom btn-lg btn-block button-custom" value="Show Graph" ng-click="showTopCitedPapers()"></h1>
+            <div style="height: 100vh; overflow: scroll">
+                <div ng-repeat="paper in topCitedPapers">
+                    <p><label><b>Title:</b> </label> {{paper.title}}</p>
+                    <ul>
+                        <li>Year: {{paper.year}}</li>
+                        <li>Number of Citations: {{paper.citations}}</li>
+                        <li>Citations' List: <a ng-show="paper.citationsList !== null" href={{paper.citationsList}} target="_blank"> {{paper.citationsList}} </a>
+                            <span ng-show="paper.citationsList === null">Not available</span></li>
+                        <li>URL: <a ng-show="paper.url !== null" href={{paper.url}} target="_blank"> {{paper.url}} </a>
+                            <span ng-show="paper.url === null">Not available</span></li>
+                        <li>PDF link: <a ng-show="paper.pdfLink !== null" href={{paper.pdfLink}} target="_blank"> {{paper.pdfLink}} </a>
+                            <span ng-show="paper.pdfLink === null">Not available</span></li>
+                        <li>Excerpt: ... {{paper.excerpt}} ...</li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -283,6 +321,18 @@
                     height="500"
                     type="pie3d"
                     datasource="{{myDataSource}}">
+            </fusioncharts>
+        </div>
+
+        <div ng-show="showCitationCharts">
+
+            <fusioncharts
+                    style = "fill-opacity: 0 !important;"
+                    width="600"
+                    height="400"
+                    type="column2d"
+                    datasource="{{newDataSource}}">
+
             </fusioncharts>
         </div>
 
