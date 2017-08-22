@@ -197,18 +197,18 @@ public class SearchServiceImpl implements SearchService {
     @Override
     public List<PaperCitation> getTopCitedPapersForTopic(String top, String title) {
 
-        String home = "";
+        String home = "src/python";
 
-        try {
-            home = System.getenv("PY_HOME");
-            System.out.println(home);
-
-            if (home.isEmpty()) {
-                System.out.println("Make sure you have a Env variable PY_HOME pointing to scholar.py directory!");
-            }
-        } catch (Exception e) {
-            System.out.println("Make sure you have a Env variable PY_HOME pointing to scholar.py directory!");
-        }
+//        try {
+//            home = System.getenv("PY_HOME");
+//            System.out.println(home);
+//
+//            if (home.isEmpty()) {
+//                System.out.println("Make sure you have a Env variable PY_HOME pointing to scholar.py directory!");
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Make sure you have a Env variable PY_HOME pointing to scholar.py directory!");
+//        }
 
         //in mac oxs
         String command = "./scholar.py --phrase \"" + title + "\"";
